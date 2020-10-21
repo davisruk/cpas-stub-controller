@@ -8,11 +8,33 @@ export const updateConfig = createAction(
   '[Config] Update'
 );
 
+export const updateReleasing = createAction(
+  '[Config] updateReleasing',
+  props<{ isReleasing: boolean }>()
+);
+
 export const updateFMD = createAction(
-  'Config] updateFMD',
+  '[Config] updateFMD',
   props<{ include: boolean }>()
 );
 
+export const update32RShort = createAction(
+  '[Config] update32RShort',
+  props<{ send32R: boolean }>()
+);
 
+export const updateToteRelease = createAction(
+  '[Config] updateToteRelease',
+  props<{ interval: number }>()
+);
 
+export const updateToteTravelTime = createAction(
+  '[Config] updateToteTravelTime',
+  props<{ interval: number }>()
+);
+
+export const updateMaxTotesOnTrack = createAction(
+  '[Config] updateMaxTotesOnTrack',
+  props<{ totes: number }>()
+);
 

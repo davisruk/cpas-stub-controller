@@ -1,4 +1,4 @@
-import { updateFMD } from './config.actions';
+import { updateFMD, update32RShort, updateToteRelease, updateToteTravelTime, updateMaxTotesOnTrack, updateReleasing } from './config.actions';
 import { createReducer, on } from '@ngrx/store';
 
 
@@ -25,6 +25,11 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
-  on(updateFMD,  (state, { include }) => ({ ...state, includeFMD: include}))
+  on(updateReleasing,  (state, { isReleasing }) => ({ ...state, releasing: isReleasing})),
+  on(updateFMD,  (state, { include }) => ({ ...state, includeFMD: include})),
+  on(update32RShort,  (state, { send32R }) => ({ ...state, sendThirtyTwoRShort: send32R})),
+  on(updateToteRelease,  (state, { interval }) => ({ ...state, toteReleaseInterval: interval})),
+  on(updateToteTravelTime,  (state, { interval }) => ({ ...state, toteTrackTravelTime: interval})),
+  on(updateMaxTotesOnTrack,  (state, { totes }) => ({ ...state, maxTotesOnTrack: totes})),
 );
 

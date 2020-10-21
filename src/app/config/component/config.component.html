@@ -1,3 +1,14 @@
-<div>
-    <mat-slide-toggle (change)="onChange($event)" [checked] = "includeFMD$ | async">Include FMD</mat-slide-toggle>
-</div>
+<mat-card class="example-result-card">
+    <mat-card-content>
+      <h2>Config</h2>
+      <mat-slide-toggle labelPosition="before" (change)="onChangeReleasing($event)" [checked] = "release$ | async">OSR Release</mat-slide-toggle><br>
+      <mat-slide-toggle labelPosition="before" (change)="onChangeFMD($event)" [checked] = "includeFMD$ | async">Include FMD</mat-slide-toggle><br>
+      <mat-slide-toggle labelPosition="before" (change)="onChange32RShort($event)" [checked] = "send32R$ | async">Send 32R Short</mat-slide-toggle><br>
+      Tote Release Interval <mat-slider [value] = "toteRelease$ | async" (change)="onChangeToteInterval($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="10000"></mat-slider><br>
+      Tote Track Travel Time <mat-slider [value] = "toteTravelTime$ | async" (change)="onChangeTravelTime($event)" thumbLabel [displayWith]="formatSecondsLabel" tickInterval="1000" min="1" max="100000"></mat-slider><br>
+      Max Totes On Track <mat-slider [value] = "maxTotes$ | async" (change)="onChangeMaxTotes($event)" thumbLabel min="1" max="10"></mat-slider><br>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color='primary'>Update Config</button>
+    </mat-card-actions>
+</mat-card>
