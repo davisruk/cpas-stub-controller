@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { State } from './config.reducer';
 
 export const loadConfigs = createAction(
   '[Config] Load Configs'
@@ -36,5 +37,12 @@ export const updateToteTravelTime = createAction(
 export const updateMaxTotesOnTrack = createAction(
   '[Config] updateMaxTotesOnTrack',
   props<{ totes: number }>()
+);
+
+export const sendConfig = createAction('[Config] sendConfig');
+
+export const sendConfigSuccess = createAction(
+  '[Config] sendConfig Success',
+  props<{ config: State }>()
 );
 

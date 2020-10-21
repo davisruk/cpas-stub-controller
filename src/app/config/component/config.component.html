@@ -9,6 +9,6 @@
       Max Totes On Track <mat-slider [value] = "maxTotes$ | async" (change)="onChangeMaxTotes($event)" thumbLabel min="1" max="10"></mat-slider><br>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color='primary'>Update Config</button>
+      <button mat-raised-button color='primary' (click)='onClickSendConfig()'>Send Config</button>
     </mat-card-actions>
 </mat-card>

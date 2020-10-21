@@ -1,4 +1,4 @@
-import { updateFMD, update32RShort, updateToteRelease, updateToteTravelTime, updateMaxTotesOnTrack, updateReleasing } from './../store/config.actions';
+import { updateFMD, update32RShort, updateToteRelease, updateToteTravelTime, updateMaxTotesOnTrack, updateReleasing, sendConfig } from './../store/config.actions';
 import { selectFMD, select32RShort, selectToteRelease, selectToteTravelTime, selectMaxTotes, selectReleasing } from './../store/config.selectors';
 import { AppState } from './../../reducers/index';
 import { Component, OnInit } from '@angular/core';
@@ -63,5 +63,9 @@ export class ConfigComponent implements OnInit {
     }
 
     return value + 'ms';
+  }
+
+  onClickSendConfig(): void {
+    this.store.dispatch(sendConfig());
   }
 }

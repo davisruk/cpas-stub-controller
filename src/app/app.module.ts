@@ -21,6 +21,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import { ConfigComponent } from './config/component/config.component';
+import { ConfigEffects } from './config/store/config.effects';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,8 +32,9 @@ import { ConfigComponent } from './config/component/config.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([ConfigEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreRouterConnectingModule.forRoot(),
     BrowserAnimationsModule,
