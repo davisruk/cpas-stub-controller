@@ -23,6 +23,8 @@ import { reducers, metaReducers } from './reducers';
 import { ConfigComponent } from './config/component/config.component';
 import { ConfigEffects } from './config/store/config.effects';
 import { HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { HttpClientModule } from '@angular/common/http';
     ConfigComponent
   ],
   imports: [
+    MatFormFieldModule,
+    FlexLayoutModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,

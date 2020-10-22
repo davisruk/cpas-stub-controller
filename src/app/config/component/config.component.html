@@ -1,17 +1,35 @@
-<mat-card class="example-result-card">
+<mat-card>
+    <mat-card-header>
+      <mat-card-title style="margin-left:-18px;">Config & Control</mat-card-title>
+    </mat-card-header>
     <mat-card-content>
-      <h2>Config</h2>
-      <!--Replace with a button and call the dedicated service for setting OSR Release. Service will return the state so update store accordingly -->
-      <mat-slide-toggle labelPosition="before" [disabled] = true [checked] = "release$ | async">OSR Release</mat-slide-toggle><br>
-      <!-------------------------------------------------------------------------------------------------------------------------------------------->
-      <mat-slide-toggle labelPosition="before" (change)="onChangeFMD($event)" [checked] = "includeFMD$ | async">Include FMD</mat-slide-toggle><br>
-      <mat-slide-toggle labelPosition="before" (change)="onChange32RShort($event)" [checked] = "send32R$ | async">Send 32R Short</mat-slide-toggle><br>
-      Tote Release Interval <mat-slider [value] = "toteRelease$ | async" (change)="onChangeToteInterval($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="10000"></mat-slider><br>
-      Tote Track Travel Time <mat-slider [value] = "toteTravelTime$ | async" (change)="onChangeTravelTime($event)" thumbLabel [displayWith]="formatSecondsLabel" tickInterval="1000" min="1" max="100000"></mat-slider><br>
-      Max Totes On Track <mat-slider [value] = "maxTotes$ | async" (change)="onChangeMaxTotes($event)" thumbLabel min="1" max="10"></mat-slider><br>
+      <div fxLayout="row">
+        <mat-label class="mat-label-slide-toggle" fxFlex="60%">OSR Releasing</mat-label>
+        <mat-slide-toggle class="config-slide-toggle" labelPosition="before" [disabled] = true [checked] = "release$ | async"></mat-slide-toggle>
+      </div>
+      <div fxLayout="row">
+        <mat-label class="mat-label-slide-toggle" fxFlex="60%">Include FMD</mat-label>
+        <mat-slide-toggle [disabled] = "release$ | async" class="config-slide-toggle" labelPosition="before" (change)="onChangeFMD($event)" [checked] = "includeFMD$ | async"></mat-slide-toggle>
+      </div>
+      <div fxLayout="row">
+        <mat-label class="mat-label-slide-toggle" fxFlex="60%"> Send 32R Short</mat-label>
+        <mat-slide-toggle class="config-slide-toggle" [disabled] = "release$ | async" labelPosition="before" (change)="onChange32RShort($event)" [checked] = "send32R$ | async"></mat-slide-toggle>
+      </div>
+      <div fxLayout="row">
+        <mat-label class="mat-label-slider" fxFlex="60%">Tote Release Interval</mat-label>
+        <mat-slider labelPosition="before" [disabled] = "release$ | async" [value] = "toteRelease$ | async" (change)="onChangeToteInterval($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="10000"></mat-slider>
+      </div>
+      <div fxLayout="row">
+        <mat-label class="mat-label-slider" fxFlex="60%">Tote Track Travel Time</mat-label>
+        <mat-slider labelPosition="before" [disabled] = "release$ | async" [value] = "toteTravelTime$ | async" (change)="onChangeTravelTime($event)" thumbLabel [displayWith]="formatSecondsLabel" tickInterval="1000" min="1" max="100000"></mat-slider>
+      </div>  
+      <div fxLayout="row">
+        <mat-label class="mat-label-slider" fxFlex="60%"> Max Totes On Track</mat-label>
+        <mat-slider labelPosition="before" [disabled] = "release$ | async" [value] = "maxTotes$ | async" (change)="onChangeMaxTotes($event)" thumbLabel min="1" max="10"></mat-slider>
+      </div>    
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color='primary' (click)='onClickSendConfig()'>Send Config</button>
+    <mat-card-actions fxLayout="row" fxLayoutAlign='space-evenly center'>
+      <button mat-raised-button [disabled] = "release$ | async" color='primary' (click)='onClickSendConfig()'>Send Config</button>
       <button mat-raised-button color='primary' (click)="releasing ? onClickOSRStop() : onClickOSRStart()" [textContent] = "releasing ? 'Stop OSR Release' : 'Start OSR Release'"></button>
     </mat-card-actions>
 </mat-card>
