@@ -1,7 +1,9 @@
 <mat-card class="example-result-card">
     <mat-card-content>
       <h2>Config</h2>
-      <mat-slide-toggle labelPosition="before" (change)="onChangeReleasing($event)" [checked] = "release$ | async">OSR Release</mat-slide-toggle><br>
+      <!--Replace with a button and call the dedicated service for setting OSR Release. Service will return the state so update store accordingly -->
+      <mat-slide-toggle labelPosition="before" [disabled] = true [checked] = "release$ | async">OSR Release</mat-slide-toggle><br>
+      <!-------------------------------------------------------------------------------------------------------------------------------------------->
       <mat-slide-toggle labelPosition="before" (change)="onChangeFMD($event)" [checked] = "includeFMD$ | async">Include FMD</mat-slide-toggle><br>
       <mat-slide-toggle labelPosition="before" (change)="onChange32RShort($event)" [checked] = "send32R$ | async">Send 32R Short</mat-slide-toggle><br>
       Tote Release Interval <mat-slider [value] = "toteRelease$ | async" (change)="onChangeToteInterval($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="10000"></mat-slider><br>
@@ -10,5 +12,6 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color='primary' (click)='onClickSendConfig()'>Send Config</button>
+      <button mat-raised-button color='primary' (click)="releasing ? onClickOSRStop() : onClickOSRStart()" [textContent] = "releasing ? 'Stop OSR Release' : 'Start OSR Release'"></button>
     </mat-card-actions>
 </mat-card>

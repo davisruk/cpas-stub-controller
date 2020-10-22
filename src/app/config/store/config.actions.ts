@@ -4,6 +4,10 @@ import { State } from './config.reducer';
 export const loadConfigs = createAction(
   '[Config] Load Configs'
 );
+export const loadConfigSuccess = createAction(
+  '[Config] Load Configs Success',
+  props<{ config: State }>()
+);
 
 export const updateConfig = createAction(
   '[Config] Update'
@@ -45,4 +49,13 @@ export const sendConfigSuccess = createAction(
   '[Config] sendConfig Success',
   props<{ config: State }>()
 );
+
+export const startOSR = createAction('[Config] startOSR');
+export const stopOSR = createAction('[Config] stopOSR');
+
+export const osrSuccess = createAction(
+  '[Config] OSR Toggle Success',
+  props<{ config: State }>()
+);
+
 

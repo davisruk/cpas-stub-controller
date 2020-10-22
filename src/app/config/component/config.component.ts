@@ -1,5 +1,7 @@
-import { updateFMD, update32RShort, updateToteRelease, updateToteTravelTime, updateMaxTotesOnTrack, updateReleasing, sendConfig } from './../store/config.actions';
-import { selectFMD, select32RShort, selectToteRelease, selectToteTravelTime, selectMaxTotes, selectReleasing } from './../store/config.selectors';
+import { updateFMD, update32RShort, updateToteRelease, updateToteTravelTime, updateMaxTotesOnTrack,
+          updateReleasing, sendConfig, startOSR, stopOSR, loadConfigs } from './../store/config.actions';
+import { selectFMD, select32RShort, selectToteRelease, selectToteTravelTime, selectMaxTotes,
+          selectReleasing } from './../store/config.selectors';
 import { AppState } from './../../reducers/index';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -20,6 +22,7 @@ export class ConfigComponent implements OnInit {
   toteRelease$: Observable<number>;
   toteTravelTime$: Observable<number>;
   maxTotes$: Observable<number>;
+  releasing: boolean;
 
   constructor(private store: Store<AppState>) {
     this.release$ = this.store.select(selectReleasing);
@@ -31,6 +34,8 @@ export class ConfigComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.release$.subscribe(res => this.releasing = res);
+    this.store.dispatch(loadConfigs());
   }
 
   onChangeFMD(event: MatSlideToggleChange): void{
@@ -68,4 +73,13 @@ export class ConfigComponent implements OnInit {
   onClickSendConfig(): void {
     this.store.dispatch(sendConfig());
   }
+
+  onClickOSRStart(): void {
+    this.store.dispatch(startOSR());
+  }
+
+  onClickOSRStop(): void {
+    this.store.dispatch(stopOSR());
+  }
+
 }
