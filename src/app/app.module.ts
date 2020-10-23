@@ -25,12 +25,14 @@ import { ConfigEffects } from './config/store/config.effects';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { DspLiveStatsComponent } from './dsp-live-stats/component/dsp-live-stats.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    ConfigComponent
+    ConfigComponent,
+    DspLiveStatsComponent
   ],
   imports: [
     MatFormFieldModule,
