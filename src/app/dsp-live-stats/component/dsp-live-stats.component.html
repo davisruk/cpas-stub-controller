@@ -1,1 +1,17 @@
-<p>dsp-live-stats works!</p>
+<mat-card>
+    <mat-card-header>
+      <mat-card-title style="margin-left:-18px;">Live Stats</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div fxLayout="row">
+        <mat-label class="mat-label-slide-toggle" >Total Totes: {{(trackStatus$ | async).totalTotes}}</mat-label>
+      </div>
+      <div fxLayout="row">
+        <mat-label class="mat-label-slider" >Active Totes: {{(trackStatus$ | async).activeTotes}}</mat-label>
+      </div>
+      <div fxLayout="row">
+        <mat-label class="mat-label-slide-toggle" >Totes Processed: {{(trackStatus$ | async).totesProcessed}}</mat-label>
+      </div>
+    </mat-card-content>
+</mat-card>
+

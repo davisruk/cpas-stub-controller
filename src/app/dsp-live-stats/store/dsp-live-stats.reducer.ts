@@ -1,6 +1,6 @@
 import { TrackStatus } from './track.status';
-import { Action, createReducer, on } from '@ngrx/store';
-
+import { createReducer, on } from '@ngrx/store';
+import { updateStats } from './dsp-live-stats.actions';
 
 export const dspLiveStatsFeatureKey = 'dspLiveStats';
 
@@ -12,14 +12,11 @@ export const initialState: State = {
   trackStatus: {
     activeTotes: 0,
     totesProcessed: 0,
-    totalTotes: 0,
-    totesOnTrack: 0
+    totalTotes: 0
   }
 };
 
-
 export const reducer = createReducer(
   initialState,
-
+  on(updateStats,  (state, { newStats }) => ({ ...state, trackStatus: newStats})),
 );
-
