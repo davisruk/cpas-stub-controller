@@ -12,7 +12,9 @@ export const initialState: State = {
   trackStatus: {
     activeTotes: 0,
     totesProcessed: 0,
-    totalTotes: 0
+    totalTotes: 0,
+    sendChannelClient: 'Disconnected',
+    receiveChannelClient: 'Disconnected'
   }
 };
 
