@@ -17,11 +17,11 @@
       </div>
       <div fxLayout="row">
         <mat-label class="mat-label-slider" fxFlex="60%">Tote Release Interval</mat-label>
-        <mat-slider labelPosition="before" [disabled] = "release$ | async" [value] = "toteRelease$ | async" (change)="onChangeToteInterval($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="10000"></mat-slider>
+        <mat-slider labelPosition="before" [disabled] = "release$ | async" [value] = "toteRelease$ | async" (change)="onChangeToteInterval($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="5000"></mat-slider>
       </div>
       <div fxLayout="row">
         <mat-label class="mat-label-slider" fxFlex="60%">Tote Track Travel Time</mat-label>
-        <mat-slider labelPosition="before" [disabled] = "release$ | async" [value] = "toteTravelTime$ | async" (change)="onChangeTravelTime($event)" thumbLabel [displayWith]="formatSecondsLabel" tickInterval="1000" min="1" max="100000"></mat-slider>
+        <mat-slider labelPosition="before" [disabled] = "release$ | async" [value] = "toteTravelTime$ | async" (change)="onChangeTravelTime($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="10000"></mat-slider>
       </div>  
       <div fxLayout="row">
         <mat-label class="mat-label-slider" fxFlex="60%"> Max Totes On Track</mat-label>
@@ -29,9 +29,20 @@
       </div>    
     </mat-card-content>
     <mat-card-actions fxLayout="row" fxLayoutAlign='space-evenly center'>
-      <button mat-raised-button [disabled] = "(release$ | async) || resetting" color='primary' (click)='onClickSendConfig()'>Send Config</button>
-      <button mat-raised-button [disabled] = "resetting" color='primary' (click)="releasing ? onClickOSRStop() : onClickOSRStart()" [textContent] = "releasing ? 'Stop OSR Release' : 'Start OSR Release'"></button>
-      <button mat-raised-button [disabled] = "(release$ | async) || resetting" color='primary' (click)="openUploadDialog()">Upload Master Data</button>
-      <button mat-raised-button [disabled] = "(release$ | async) || resetting" color='primary' (click)="onClickResetRun()">Reset Run</button>
+      <button mat-fab matTooltip="Send Config To Server" [disabled] = "(release$ | async) || resetting" color='primary' (click)='onClickSendConfig()'>
+        <mat-icon>save</mat-icon>
+      </button>
+      <button mat-fab matTooltip="Upload Master Data" [disabled] = "(release$ | async) || resetting" color='primary' (click)="openUploadDialog()">
+        <mat-icon>cloud_upload</mat-icon>
+      </button>
+      <button [hidden]="releasing" mat-fab matTooltip="Send OSR Release" [disabled] = "resetting" color='primary' (click)="onClickOSRStart()">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button [hidden]="!releasing" mat-fab matTooltip="Stop OSR Release" [disabled] = "resetting" color='primary' (click)="onClickOSRStop()">
+        <mat-icon>stop</mat-icon>
+      </button>
+      <button mat-fab matTooltip="Reset Run" [disabled] = "(release$ | async) || resetting" color='primary' (click)="onClickResetRun()">
+        <mat-icon>replay</mat-icon>
+      </button>
     </mat-card-actions>
 </mat-card>

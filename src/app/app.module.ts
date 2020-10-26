@@ -29,6 +29,7 @@ import { DspLiveStatsComponent } from './dsp-live-stats/component/dsp-live-stats
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChooseFilesDialogComponent } from './upload/component/choose-files-dialog.component';
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ChooseFilesDialogComponent } from './upload/component/choose-files-dial
   imports: [
     MatFormFieldModule,
     MatDialogModule,
+    MatTooltipModule,
     MatListModule,
     FlexLayoutModule,
     BrowserModule,
