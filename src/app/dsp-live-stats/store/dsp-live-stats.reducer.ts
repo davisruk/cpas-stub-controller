@@ -14,7 +14,8 @@ export const initialState: State = {
     totesProcessed: 0,
     totalTotes: 0,
     sendChannelClient: 'Disconnected',
-    receiveChannelClient: 'Disconnected'
+    receiveChannelClient: 'Disconnected',
+    toteNames: ['None']
   }
 };
 

@@ -4,4 +4,5 @@ export class TrackStatus {
     totesProcessed: number;
     receiveChannelClient: string;
     sendChannelClient: string;
+    toteNames: string[];
 }

@@ -4,19 +4,22 @@
     </mat-card-header>
     <mat-card-content>
         <div fxLayout="row">
-            <mat-label class="mat-label-slide-toggle" >Receive Channel: {{(trackStatus$ | async).receiveChannelClient}}</mat-label>
+            <mat-label>Receive Channel: {{(trackStatus$ | async).receiveChannelClient}}</mat-label>
           </div>
           <div fxLayout="row">
-            <mat-label class="mat-label-slide-toggle" >Send Channel: {{(trackStatus$ | async).sendChannelClient}}</mat-label>
+            <mat-label>Send Channel: {{(trackStatus$ | async).sendChannelClient}}</mat-label>
           </div>
         <div fxLayout="row">
-        <mat-label class="mat-label-slide-toggle" >Total Totes: {{(trackStatus$ | async).totalTotes}}</mat-label>
+        <mat-label>Total Totes: {{(trackStatus$ | async).totalTotes}}</mat-label>
       </div>
       <div fxLayout="row">
-        <mat-label class="mat-label-slider" >Active Totes: {{(trackStatus$ | async).activeTotes}}</mat-label>
+        <mat-label>Active Totes: {{(trackStatus$ | async).activeTotes}}</mat-label>
       </div>
       <div fxLayout="row">
-        <mat-label class="mat-label-slide-toggle" >Totes Processed: {{(trackStatus$ | async).totesProcessed}}</mat-label>
+        <mat-label>Totes Processed: {{(trackStatus$ | async).totesProcessed}}</mat-label>
+      </div>
+      <div fxLayout="row" *ngFor="let toteName of (trackStatus$ | async).toteNames">
+        <mat-label>{{toteName}}</mat-label>
       </div>
     </mat-card-content>
 </mat-card>
