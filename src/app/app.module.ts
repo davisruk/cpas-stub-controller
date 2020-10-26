@@ -26,16 +26,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DspLiveStatsComponent } from './dsp-live-stats/component/dsp-live-stats.component';
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
+import { ChooseFilesDialogComponent } from './upload/component/choose-files-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     ConfigComponent,
-    DspLiveStatsComponent
+    DspLiveStatsComponent,
+    ChooseFilesDialogComponent
   ],
   imports: [
     MatFormFieldModule,
+    MatDialogModule,
+    MatListModule,
     FlexLayoutModule,
     BrowserModule,
     HttpClientModule,
@@ -52,6 +58,7 @@ import { DspLiveStatsComponent } from './dsp-live-stats/component/dsp-live-stats
     MatIconModule,
     MatButtonModule,
     MatDividerModule,
+    MatProgressBarModule,
     LayoutModule,
     StoreModule.forRoot({}, {}),
     StoreModule.forRoot(reducers, { metaReducers }),

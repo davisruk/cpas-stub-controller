@@ -29,7 +29,9 @@
       </div>    
     </mat-card-content>
     <mat-card-actions fxLayout="row" fxLayoutAlign='space-evenly center'>
-      <button mat-raised-button [disabled] = "release$ | async" color='primary' (click)='onClickSendConfig()'>Send Config</button>
-      <button mat-raised-button color='primary' (click)="releasing ? onClickOSRStop() : onClickOSRStart()" [textContent] = "releasing ? 'Stop OSR Release' : 'Start OSR Release'"></button>
+      <button mat-raised-button [disabled] = "(release$ | async) || resetting" color='primary' (click)='onClickSendConfig()'>Send Config</button>
+      <button mat-raised-button [disabled] = "resetting" color='primary' (click)="releasing ? onClickOSRStop() : onClickOSRStart()" [textContent] = "releasing ? 'Stop OSR Release' : 'Start OSR Release'"></button>
+      <button mat-raised-button [disabled] = "(release$ | async) || resetting" color='primary' (click)="openUploadDialog()">Upload Master Data</button>
+      <button mat-raised-button [disabled] = "(release$ | async) || resetting" color='primary' (click)="onClickResetRun()">Reset Run</button>
     </mat-card-actions>
 </mat-card>
