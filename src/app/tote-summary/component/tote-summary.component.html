@@ -1,0 +1,7 @@
+<mat-card>
+        <mat-card-content>
+            <div fxLayout="row" *ngFor="let tote of (page$ | async).toteEntries">
+                <mat-label>{{tote.orderId}}</mat-label>
+            </div>
+        </mat-card-content>
+</mat-card>

@@ -31,13 +31,16 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChooseFilesDialogComponent } from './upload/component/choose-files-dialog.component';
+import { ToteSummaryEffects } from './tote-summary/store/tote-summary.effects';
+import { ToteSummaryComponent } from './tote-summary/component/tote-summary.component';
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     ConfigComponent,
     DspLiveStatsComponent,
-    ChooseFilesDialogComponent
+    ChooseFilesDialogComponent,
+    ToteSummaryComponent
   ],
   imports: [
     MatFormFieldModule,
@@ -48,7 +51,7 @@ import { ChooseFilesDialogComponent } from './upload/component/choose-files-dial
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    EffectsModule.forRoot([ConfigEffects]),
+    EffectsModule.forRoot([ConfigEffects, ToteSummaryEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreRouterConnectingModule.forRoot(),
     BrowserAnimationsModule,
