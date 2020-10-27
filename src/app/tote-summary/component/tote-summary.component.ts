@@ -1,12 +1,14 @@
+import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Store } from '@ngrx/store';
 import { fromEvent, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/reducers';
+import { loadToteMessages } from 'src/app/tote-messages/store/tote-messages.actions';
 import { ToteSummaryDataSource } from '../services/tote-summary.datasource';
 import { selectTrackStatus } from './../../dsp-live-stats/store/dsp-live-stats.selectors';
-import { PageResponseDetail } from './../store/tote-summary.model';
+import { PageResponseDetail, ToteSummary } from './../store/tote-summary.model';
 import { selectPageResponseDetail } from './../store/tote-summary.selectors';
 
 @Component({
@@ -22,9 +24,11 @@ export class ToteSummaryComponent implements OnInit, AfterViewInit{
   dataSource: ToteSummaryDataSource;
   pageInfo$: Observable<PageResponseDetail>;
   displayedColumns = ['id', 'toteType', 'orderId', 'sheetNumber', 'containerIdentifier'];
+  selection = new SelectionModel<ToteSummary>(false, null);
 
   constructor(private store: Store<AppState>) {
     this.pageInfo$ = this.store.select(selectPageResponseDetail);
+    this.dataSource = new ToteSummaryDataSource(this.store);
   }
 
   ngAfterViewInit(): void {
@@ -42,8 +46,19 @@ export class ToteSummaryComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(): void {
-    this.dataSource = new ToteSummaryDataSource(this.store);
+    this.selection.changed.subscribe((change: SelectionChange<ToteSummary>) =>
+    {
+        const selectedTote: ToteSummary = change.added[0];
+        if (selectedTote)   // will be undefined if no selection
+        {
+            this.store.dispatch(loadToteMessages({toteId: selectedTote.id}));
+        }
+    });
 
+    // there will be no totes until a client has connected to the server
+    // wait for the live stats to tell us there are now totes in the buffer
+    // there is a problem with this implementation - need to refactor so that
+    // the subscription is not reliant on ngInit
     this.store.select(selectTrackStatus).pipe(
       filter(stats => stats.totalTotes > 3),
       take(1),

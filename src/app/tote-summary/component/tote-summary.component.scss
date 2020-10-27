@@ -1,3 +1,9 @@
 .toteSummary > mat-card {
   width: 700px;
 }
+
+.mat-row {
+  &.selected {
+    background: #f734ac;
+  }
+}

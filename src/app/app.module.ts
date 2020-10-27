@@ -33,6 +33,8 @@ import { ConfigEffects } from './config/store/config.effects';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DspLiveStatsComponent } from './dsp-live-stats/component/dsp-live-stats.component';
 import { metaReducers, reducers } from './reducers';
+import { ToteMessagesComponent } from './tote-messages/component/tote-messages.component';
+import { ToteMessagesEffects } from './tote-messages/store/tote-messages.effects';
 import { ToteSummaryComponent } from './tote-summary/component/tote-summary.component';
 import { ToteSummaryEffects } from './tote-summary/store/tote-summary.effects';
 import { ChooseFilesDialogComponent } from './upload/component/choose-files-dialog.component';
@@ -45,7 +47,8 @@ import { ChooseFilesDialogComponent } from './upload/component/choose-files-dial
     ConfigComponent,
     DspLiveStatsComponent,
     ChooseFilesDialogComponent,
-    ToteSummaryComponent
+    ToteSummaryComponent,
+    ToteMessagesComponent
   ],
   imports: [
     MatToolbarModule,
@@ -59,7 +62,7 @@ import { ChooseFilesDialogComponent } from './upload/component/choose-files-dial
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    EffectsModule.forRoot([ConfigEffects, ToteSummaryEffects]),
+    EffectsModule.forRoot([ConfigEffects, ToteSummaryEffects, ToteMessagesEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreRouterConnectingModule.forRoot(),
     BrowserAnimationsModule,
