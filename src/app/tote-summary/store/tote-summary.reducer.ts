@@ -13,11 +13,11 @@ export const initialState: State = {
   totePage: {
     toteEntries: [],
     pageDetail: {
-      pageRequest: {
-      pageNumber: 1,
-      pageSize: 10
+      pageRequestDetail: {
+        pageNumber: 1,
+        pageSize: 10
       },
-      pageResponse: {
+      pageResponseDetail: {
         totalEntries: 0,
         totalPages: 0
       }
@@ -28,6 +28,6 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
-  on(loadToteSummarysSuccess,  (state, { result }) => ({ ...state, totePage: result})),
+  on(loadToteSummarysSuccess, (state, { result }) => ({ ...state, totePage: result })),
 );
 

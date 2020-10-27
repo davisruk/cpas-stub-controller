@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
 import { LayoutModule } from '@angular/cdk/layout';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
@@ -30,6 +31,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { ChooseFilesDialogComponent } from './upload/component/choose-files-dialog.component';
 import { ToteSummaryEffects } from './tote-summary/store/tote-summary.effects';
 import { ToteSummaryComponent } from './tote-summary/component/tote-summary.component';
@@ -44,6 +46,7 @@ import { ToteSummaryComponent } from './tote-summary/component/tote-summary.comp
   ],
   imports: [
     MatFormFieldModule,
+    MatTableModule,
     MatDialogModule,
     MatTooltipModule,
     MatListModule,
@@ -64,6 +67,7 @@ import { ToteSummaryComponent } from './tote-summary/component/tote-summary.comp
     MatButtonModule,
     MatDividerModule,
     MatProgressBarModule,
+    MatPaginatorModule,
     LayoutModule,
     StoreModule.forRoot({}, {}),
     StoreModule.forRoot(reducers, { metaReducers }),

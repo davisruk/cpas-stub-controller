@@ -1,7 +1,39 @@
 <mat-card>
-        <mat-card-content>
-            <div fxLayout="row" *ngFor="let tote of (page$ | async).toteEntries">
-                <mat-label>{{tote.orderId}}</mat-label>
-            </div>
-        </mat-card-content>
+    <mat-card-content>
+        <mat-table class="mat-elevation-z8" [dataSource]="dataSource">
+
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+                <mat-cell *matCellDef="let tote">{{tote.id}}</mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="toteType">
+                <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+                <mat-cell class="type-cell"
+                        *matCellDef="let tote">{{tote.toteType}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="orderId">
+                <mat-header-cell *matHeaderCellDef>Order Id</mat-header-cell>
+                <mat-cell class="order-cell"
+                        *matCellDef="let tote">{{tote.orderId}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="sheetNumber">
+                <mat-header-cell *matHeaderCellDef>Sheet</mat-header-cell>
+                <mat-cell class="sheet-cell"
+                        *matCellDef="let tote">{{tote.sheetNumber}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="containerIdentifier">
+                <mat-header-cell *matHeaderCellDef>Container</mat-header-cell>
+                <mat-cell class="container-cell"
+                        *matCellDef="let tote">{{tote.containerIdentifier}}</mat-cell>
+            </ng-container>
+        
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        
+        </mat-table>
+        <mat-paginator [length]="(pageInfo$ | async).totalEntries" [pageSize]="3"
+                   [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+    </mat-card-content>
 </mat-card>

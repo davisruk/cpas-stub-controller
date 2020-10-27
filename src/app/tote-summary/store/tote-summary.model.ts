@@ -9,8 +9,8 @@ export interface PageResponseDetail {
 }
 
 export interface PageDetail {
-    pageRequest: PageRequestDetail;
-    pageResponse: PageResponseDetail;
+    pageRequestDetail: PageRequestDetail;
+    pageResponseDetail: PageResponseDetail;
 }
 
 export interface ToteSummary {
