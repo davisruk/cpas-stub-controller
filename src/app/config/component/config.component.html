@@ -35,7 +35,7 @@
       <button mat-fab matTooltip="Upload Master Data" [disabled] = "(release$ | async) || resetting" color='primary' (click)="openUploadDialog()">
         <mat-icon>cloud_upload</mat-icon>
       </button>
-      <button [hidden]="releasing" mat-fab matTooltip="Send OSR Release" [disabled] = "resetting" color='primary' (click)="onClickOSRStart()">
+      <button [hidden]="releasing" mat-fab matTooltip="Start OSR Release" [disabled] = "resetting" color='primary' (click)="onClickOSRStart()">
         <mat-icon>play_arrow</mat-icon>
       </button>
       <button [hidden]="!releasing" mat-fab matTooltip="Stop OSR Release" [disabled] = "resetting" color='primary' (click)="onClickOSRStop()">
