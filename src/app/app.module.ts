@@ -38,6 +38,8 @@ import { ToteMessagesEffects } from './tote-messages/store/tote-messages.effects
 import { ToteSummaryComponent } from './tote-summary/component/tote-summary.component';
 import { ToteSummaryEffects } from './tote-summary/store/tote-summary.effects';
 import { ChooseFilesDialogComponent } from './upload/component/choose-files-dialog.component';
+import { ViewMessageComponent } from './view-message/component/view-message.component';
+import { ViewMessageEffects } from './view-message/store/view-message.effects';
 
 
 @NgModule({
@@ -48,7 +50,8 @@ import { ChooseFilesDialogComponent } from './upload/component/choose-files-dial
     DspLiveStatsComponent,
     ChooseFilesDialogComponent,
     ToteSummaryComponent,
-    ToteMessagesComponent
+    ToteMessagesComponent,
+    ViewMessageComponent
   ],
   imports: [
     MatToolbarModule,
@@ -62,7 +65,7 @@ import { ChooseFilesDialogComponent } from './upload/component/choose-files-dial
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    EffectsModule.forRoot([ConfigEffects, ToteSummaryEffects, ToteMessagesEffects]),
+    EffectsModule.forRoot([ConfigEffects, ToteSummaryEffects, ToteMessagesEffects, ViewMessageEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreRouterConnectingModule.forRoot(),
     BrowserAnimationsModule,

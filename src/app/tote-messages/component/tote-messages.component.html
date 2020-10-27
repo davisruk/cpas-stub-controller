@@ -24,6 +24,12 @@
                             *matCellDef="let msg">{{msg.creationTime}}</mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="viewMessage">
+                    <mat-header-cell  *matHeaderCellDef > View </mat-header-cell>
+                    <mat-cell *matCellDef="let msg" >
+                         <button mat-button (click)="viewClicked($event, msg)">View</button>
+                    </mat-cell>
+                  </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             
                 <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>

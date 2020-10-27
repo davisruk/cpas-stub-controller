@@ -1,17 +1,21 @@
-import { ConfigService } from './../services/config.service';
-import { updateFMD, update32RShort, updateToteRelease, updateToteTravelTime, updateMaxTotesOnTrack,
-          updateReleasing, sendConfig, startOSR, stopOSR, loadConfigs } from './../store/config.actions';
-import { selectFMD, select32RShort, selectToteRelease, selectToteTravelTime, selectMaxTotes,
-          selectReleasing } from './../store/config.selectors';
-import { AppState } from './../../reducers/index';
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSliderChange } from '@angular/material/slider';
-import { ChooseFilesDialogComponent } from '../../upload/component/choose-files-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { UploadService } from 'src/app/upload/services/file.upload.service';
+import { ChooseFilesDialogComponent } from '../../upload/component/choose-files-dialog.component';
+import { AppState } from './../../reducers/index';
+import { ConfigService } from './../services/config.service';
+import {
+  loadConfigs, sendConfig, startOSR, stopOSR, update32RShort, updateFMD, updateMaxTotesOnTrack,
+  updateReleasing, updateToteRelease, updateToteTravelTime
+} from './../store/config.actions';
+import {
+  select32RShort, selectFMD, selectMaxTotes,
+  selectReleasing, selectToteRelease, selectToteTravelTime
+} from './../store/config.selectors';
 
 @Component({
   selector: 'app-config',
@@ -29,13 +33,6 @@ export class ConfigComponent implements OnInit {
   releasing: boolean;
   resetting = false;
 
-  public openUploadDialog(): void {
-    this.dialog.open(ChooseFilesDialogComponent, {
-      width: '30%',
-      height: '30%',
-    });
-  }
-
   constructor(private store: Store<AppState>,
               public dialog: MatDialog,
               public uploadService: UploadService, // service doesn't update the store state
@@ -47,6 +44,13 @@ export class ConfigComponent implements OnInit {
     this.toteTravelTime$ = this.store.select(selectToteTravelTime);
     this.maxTotes$ = this.store.select(selectMaxTotes);
    }
+
+  openUploadDialog(): void {
+    this.dialog.open(ChooseFilesDialogComponent, {
+      width: '30%',
+      height: '30%',
+    });
+  }
 
   ngOnInit(): void {
     this.release$.subscribe(res => this.releasing = res);
