@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { fromEvent, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/reducers';
 import { ToteSummaryDataSource } from '../services/tote-summary.datasource';
 import { selectTrackStatus } from './../../dsp-live-stats/store/dsp-live-stats.selectors';
@@ -14,8 +14,10 @@ import { selectPageResponseDetail } from './../store/tote-summary.selectors';
   templateUrl: './tote-summary.component.html',
   styleUrls: ['./tote-summary.component.scss']
 })
-export class ToteSummaryComponent implements OnInit {
+export class ToteSummaryComponent implements OnInit, AfterViewInit{
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('input') input: ElementRef;
+
 
   dataSource: ToteSummaryDataSource;
   pageInfo$: Observable<PageResponseDetail>;
@@ -23,6 +25,20 @@ export class ToteSummaryComponent implements OnInit {
 
   constructor(private store: Store<AppState>) {
     this.pageInfo$ = this.store.select(selectPageResponseDetail);
+  }
+
+  ngAfterViewInit(): void {
+      // server-side search
+      fromEvent(this.input.nativeElement, 'keyup')
+          .pipe(
+              debounceTime(150),
+              distinctUntilChanged(),
+              tap(() => {
+                  this.paginator.pageIndex = 0;
+                  this.loadTotesPage();
+              })
+          )
+          .subscribe();
   }
 
   ngOnInit(): void {
@@ -39,7 +55,7 @@ export class ToteSummaryComponent implements OnInit {
   loadTotesPage(): void {
     this.dataSource.loadTotes(
       1,
-      '',
+      this.input.nativeElement.value,
       'asc',
       this.paginator.pageIndex,
       this.paginator.pageSize);

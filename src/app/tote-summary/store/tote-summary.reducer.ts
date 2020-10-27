@@ -1,6 +1,6 @@
+import { createReducer, on } from '@ngrx/store';
 import { loadToteSummarysSuccess } from './tote-summary.actions';
-import { Action, createReducer, on } from '@ngrx/store';
-import { PageDetail, ToteSummaryPage } from './tote-summary.model';
+import { ToteSummaryPage } from './tote-summary.model';
 
 
 export const toteSummaryFeatureKey = 'toteSummary';
@@ -15,7 +15,8 @@ export const initialState: State = {
     pageDetail: {
       pageRequestDetail: {
         pageNumber: 1,
-        pageSize: 10
+        pageSize: 10,
+        searchTerm: ''
       },
       pageResponseDetail: {
         totalEntries: 0,

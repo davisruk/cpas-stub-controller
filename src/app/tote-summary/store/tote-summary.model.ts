@@ -1,6 +1,7 @@
 export interface PageRequestDetail {
     pageNumber: number;
     pageSize: number;
+    searchTerm: string;
 }
 
 export interface PageResponseDetail {
