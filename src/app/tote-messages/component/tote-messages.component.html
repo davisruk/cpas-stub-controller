@@ -16,7 +16,7 @@
                 <ng-container matColumnDef="message">
                     <mat-header-cell *matHeaderCellDef>Message</mat-header-cell>
                     <mat-cell class="message-cell"
-                            *matCellDef="let msg">{{msg.message}}</mat-cell>
+                            *matCellDef="let msg">{{formatMessage(msg.message)}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="creationTime">
                     <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>

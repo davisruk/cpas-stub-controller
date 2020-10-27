@@ -21,4 +21,7 @@ export class ToteMessagesComponent implements OnInit {
     this.dataSource = new ToteMessagesDataSource(this.store);
   }
 
+  formatMessage(msg: string): string{
+    return msg.length > 20 ?msg.substr(0, 20) : msg;
+  }
 }
