@@ -1,8 +1,8 @@
 <div class="toteMessages">
     <mat-card>
         <mat-card-content>
-            <mat-table class="mat-elevation-z8" [dataSource]="dataSource">
-    
+            <mat-table class="mat-elevation-z8" [dataSource]="dataSource"  matSort matSortActive="creationTime" matSortDirection="asc" matSortDisableClear>
+               
                 <ng-container matColumnDef="id">
                     <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
                     <mat-cell *matCellDef="let msg">{{msg.id}}</mat-cell>
@@ -19,7 +19,7 @@
                             *matCellDef="let msg">{{formatMessage(msg.message)}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="creationTime">
-                    <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Created</mat-header-cell>
                     <mat-cell class="created-cell"
                             *matCellDef="let msg">{{msg.creationTime}}</mat-cell>
                 </ng-container>
@@ -27,7 +27,9 @@
                 <ng-container matColumnDef="viewMessage">
                     <mat-header-cell  *matHeaderCellDef > View </mat-header-cell>
                     <mat-cell *matCellDef="let msg" >
-                         <button mat-button (click)="viewClicked($event, msg)">View</button>
+                         <button *ngIf="showViewButton(msg)" class="mat-elevation-z0" mat-mini-fab matTooltip="View Message" color='primary' (click)="viewClicked($event, msg)">
+                             <mat-icon>visibility</mat-icon>
+                         </button>
                     </mat-cell>
                   </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

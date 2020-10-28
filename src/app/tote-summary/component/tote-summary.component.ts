@@ -6,6 +6,7 @@ import { fromEvent, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/reducers';
 import { loadToteMessages } from 'src/app/tote-messages/store/tote-messages.actions';
+import { messageViewReset } from 'src/app/view-message/store/view-message.actions';
 import { ToteSummaryDataSource } from '../services/tote-summary.datasource';
 import { selectTrackStatus } from './../../dsp-live-stats/store/dsp-live-stats.selectors';
 import { PageResponseDetail, ToteSummary } from './../store/tote-summary.model';
@@ -52,6 +53,7 @@ export class ToteSummaryComponent implements OnInit, AfterViewInit{
         if (selectedTote)   // will be undefined if no selection
         {
             this.store.dispatch(loadToteMessages({toteId: selectedTote.id}));
+            this.store.dispatch(messageViewReset());
         }
     });
 

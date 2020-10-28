@@ -1,4 +1,4 @@
-<mat-card>
-    {{getJSON((message$ | async))}}
+<mat-card class="message-view-card">
+        {{(message$ | async) | json}}
 </mat-card>
 

@@ -10,5 +10,7 @@ export const loadMessageSuccess = createAction(
   props<{ result: any }>()
 );
 
-
+export const messageViewReset = createAction(
+  '[ViewMessage] Reset Message'
+);
 

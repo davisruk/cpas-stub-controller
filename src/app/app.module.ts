@@ -16,6 +16,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -55,6 +56,7 @@ import { ViewMessageEffects } from './view-message/store/view-message.effects';
   ],
   imports: [
     MatToolbarModule,
+    MatSortModule,
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
