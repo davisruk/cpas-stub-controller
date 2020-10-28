@@ -10,7 +10,6 @@ import { selectMessage } from './../store/view-message.selectors';
   styleUrls: ['./view-message.component.scss']
 })
 export class ViewMessageComponent implements OnInit {
-
   message$: Observable<any>;
 
   constructor(private store: Store<AppState>) {
@@ -18,9 +17,5 @@ export class ViewMessageComponent implements OnInit {
 
   ngOnInit(): void {
     this.message$ = this.store.select(selectMessage);
-  }
-
-  getJSON(val: any): string{
-    return JSON.stringify(val);
   }
 }

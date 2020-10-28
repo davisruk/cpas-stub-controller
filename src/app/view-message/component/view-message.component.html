@@ -1,4 +1,13 @@
 <mat-card class="message-view-card">
-        {{(message$ | async) | json}}
+        <mat-card-header>
+                <mat-card-title style="margin-left:-18px;">Message Content</mat-card-title>
+        </mat-card-header>        
+        <mat-form-field class="message-view" appearance="none">
+                <textarea matInput readonly cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="15"
+                placeholder="MessageContent" >{{(message$ | async) | json}}
+                </textarea>
+        </mat-form-field>         
 </mat-card>
 

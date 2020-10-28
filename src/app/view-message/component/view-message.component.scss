@@ -1,7 +1,7 @@
 .message-view-card {
-  max-height: 15%;
-  text-overflow: ellipsis;
-  /* Required for text-overflow to do anything */
-  white-space: break-spaces;
-  overflow: auto;
+  min-width: 400px;
+}
+
+.message-view {
+  min-width: 100%;
 }
