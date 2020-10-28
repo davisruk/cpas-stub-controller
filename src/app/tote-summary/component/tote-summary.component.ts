@@ -65,10 +65,16 @@ export class ToteSummaryComponent implements OnInit, AfterViewInit{
       filter(stats => stats.totalTotes > 3),
       take(1),
       map(_ => this.dataSource.loadTotes(1)),
-      tap(() => this.paginator.page.pipe(tap(() => this.loadTotesPage())).subscribe()),
+      tap(_ => this.paginator.page.pipe(tap(() => this.loadTotesPage())).subscribe()),
     ).subscribe();
+    //this.paginator.page.subscribe(() => this.loadTotesPage());
   }
-
+/*
+  onRefresh(): void {
+    //this.paginator.page.subscribe(() => this.loadTotesPage());
+    this.loadTotesPage();
+  }
+*/
   loadTotesPage(): void {
     this.dataSource.loadTotes(
       1,

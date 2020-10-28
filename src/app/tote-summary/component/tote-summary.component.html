@@ -39,6 +39,13 @@
         </mat-table>
         <mat-paginator [length]="(pageInfo$ | async).totalEntries" [pageSize]="3"
                    [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+<!--
+        <mat-card-actions fxLayout="row" fxLayoutAlign='space-evenly center'>
+            <button mat-fab matTooltip="Refresh" color='primary' (click)="onRefresh()">
+                <mat-icon>refresh</mat-icon>
+            </button>
+        </mat-card-actions>      
+    -->
     </mat-card-content>
 </mat-card>
 </div>

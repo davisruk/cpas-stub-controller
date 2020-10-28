@@ -4,6 +4,9 @@
     </mat-card-header>
     <mat-card-content>
         <div fxLayout="row">
+          <mat-label>Live Stats Connection: {{(socketStatus$ | async).connected ? 'Established' : 'Unavailable'}}</mat-label>
+        </div>
+        <div fxLayout="row">
             <mat-label>Receive Channel: {{(trackStatus$ | async).receiveChannelClient}}</mat-label>
           </div>
           <div fxLayout="row">

@@ -4,3 +4,4 @@ import * as fromLiveStats from './dsp-live-stats.reducer';
 
 export const selectLiveStatsFeature = createFeatureSelector<AppState, fromLiveStats.State>(fromLiveStats.dspLiveStatsFeatureKey);
 export const selectTrackStatus = createSelector(selectLiveStatsFeature, (state: fromLiveStats.State) => state.trackStatus);
+export const selectWebSocketStatus = createSelector(selectLiveStatsFeature, (state: fromLiveStats.State) => state.webSocketStatus);
