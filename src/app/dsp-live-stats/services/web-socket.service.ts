@@ -14,9 +14,7 @@ import { WebSocketStatus } from './../store/web-socket.status';
 export class WebSocketService {
   constructor(private store: Store<AppState>) { }
 
-  webSocketEndPoint = 'http://localhost:8080/ws';
   stompClient: CompatClient;
-  connCount = 0;
 
   connectSocket(host: string, topic: string): Observable<WebSocketStatus> {
     const ws: WebSocket = new SockJS('http://' + host + ':8080/ws');
@@ -46,7 +44,6 @@ export class WebSocketService {
     if (this.stompClient) {
       this.stompClient.disconnect(() => { });
     }
-    this.connCount = 0;
     return of('Disconnected');
   }
 
