@@ -28,5 +28,9 @@
         <mat-label>{{toteName}}</mat-label>
       </div>
     </mat-card-content>
+    <mat-card-actions>
+      <button *ngIf="!((socketStatus$ | async).connected) && (socketStatus$ | async).host.length > 0" mat-mini-fab matTooltip="Connect To Live Stats Web Socket" (click)="onConnect()"><mat-icon>flash_on</mat-icon></button>
+      <button *ngIf="((socketStatus$ | async).connected) && (socketStatus$ | async).host.length > 0" mat-mini-fab matTooltip="Disconnect From Live Stats Web Socket" (click)="onDisconnect()"><mat-icon>flash_off</mat-icon></button>
+    </mat-card-actions>
 </mat-card>
 

@@ -18,19 +18,21 @@ export class DashboardComponent implements OnDestroy {
   constructor(private store: Store<AppState>) {
     this.socketStatus$ = this.store.select(selectWebSocketStatus);
   }
+
   ngOnDestroy(): void {
-    this.socketStatus$.pipe(
-      last(),
-      filter(status => status.connected),
-      tap(_ => this.onDisconnect())
-    ).subscribe();
+    this.onDisconnect();
   }
 
   onConnect(host: string): void {
+    this.onDisconnect();
     this.store.dispatch(connectLiveStats({ host, topic: '/topic/livestats' }));
   }
 
   onDisconnect(): void {
-    this.store.dispatch(disconnectLiveStats());
+    this.socketStatus$.pipe(
+      last(),
+      filter(status => status.connected),
+      tap(_ => this.store.dispatch(disconnectLiveStats()))
+    ).subscribe();
   }
 }

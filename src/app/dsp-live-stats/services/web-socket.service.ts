@@ -27,18 +27,26 @@ export class WebSocketService {
       (_: any) => connectResult.next({ connected: true, host }),
       (_: any) => connectResult.next({ connected: false, host: null })
     );
-
-    connectResult.subscribe(result => {
-      if (result.connected && this.connCount < 1) {
-        this.stompClient.subscribe(topic, (sdkEvent: Message) => {
-          const message: TrackStatus = JSON.parse(sdkEvent.body);
-          this.store.dispatch(updateStats({ newStats: message }));
-          connectResult.next({ connected: true, host });
-          this.connCount++;
+    /*
+        connectResult.subscribe(result => {
+          if (result.connected && this.connCount < 1) {
+            this.stompClient.subscribe(topic, (sdkEvent: Message) => {
+              const message: TrackStatus = JSON.parse(sdkEvent.body);
+              this.store.dispatch(updateStats({ newStats: message }));
+              connectResult.next({ connected: true, host });
+              this.connCount++;
+            });
+          }
         });
-      }
-    });
+    */
     return connectResult.asObservable();
+  }
+
+  startSubscription(topic: string): void {
+    this.stompClient.subscribe(topic, (sdkEvent: Message) => {
+      const message: TrackStatus = JSON.parse(sdkEvent.body);
+      this.store.dispatch(updateStats({ newStats: message }));
+    });
   }
 
   disconnectSocket(): Observable<string> {
@@ -47,5 +55,9 @@ export class WebSocketService {
     }
     this.connCount = 0;
     return of('Disconnected');
+  }
+
+  sendStatusQuery(): void {
+    this.stompClient.send('/app/trackStatus', {});
   }
 }

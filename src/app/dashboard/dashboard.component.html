@@ -6,8 +6,7 @@
       <mat-form-field>
         <input matInput placeholder="CPAS Stub Host" #input/>
     </mat-form-field>
-    <button *ngIf="!(socketStatus$ | async).connected" mat-mini-fab matTooltip="Connect to Live Stats Server" (click)="onConnect(input.value)"><mat-icon>flash_on</mat-icon></button>
-    <button *ngIf="(socketStatus$ | async).connected" mat-mini-fab matTooltip="Diconnect Live Stats Server" (click)="onDisconnect()"><mat-icon>flash_off</mat-icon></button>
+    <button mat-mini-fab matTooltip="Set CPAS Server Host / IP" (click)="onConnect(input.value)"><mat-icon>save</mat-icon></button>
     </mat-toolbar>
   </div>
   <div class="card-container" fxLayout="row wrap" fxLayoutGap="16px grid" fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="33%">

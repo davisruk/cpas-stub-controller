@@ -29,5 +29,18 @@ export const disconnectLiveStatsSuccess = createAction(
   '[DspLiveStats] disconnectSocketSuccess'
 );
 
+export const startSubscription = createAction(
+  '[DspLiveStats] startSubscription',
+  props<{ topic: string }>()
+);
+
+export const genericSuccess = createAction(
+  '[DspLiveStats] startSubscriptionSuccess',
+  props<{ source: string }>()
+);
+
+export const sendStatusQuery = createAction(
+  '[DspLiveStats] sendStatusQuery'
+);
 
 
