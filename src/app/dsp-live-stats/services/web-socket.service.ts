@@ -27,24 +27,17 @@ export class WebSocketService {
       (_: any) => connectResult.next({ connected: true, host }),
       (_: any) => connectResult.next({ connected: false, host: null })
     );
-    /*
-        connectResult.subscribe(result => {
-          if (result.connected && this.connCount < 1) {
-            this.stompClient.subscribe(topic, (sdkEvent: Message) => {
-              const message: TrackStatus = JSON.parse(sdkEvent.body);
-              this.store.dispatch(updateStats({ newStats: message }));
-              connectResult.next({ connected: true, host });
-              this.connCount++;
-            });
-          }
-        });
-    */
     return connectResult.asObservable();
   }
 
   startSubscription(topic: string): void {
     this.stompClient.subscribe(topic, (sdkEvent: Message) => {
       const message: TrackStatus = JSON.parse(sdkEvent.body);
+      // don't like this - the service shouldn't know about the store
+      // but don't want the connection in the store
+      // stomp library really needs better rxjs support
+      // could refactor this to pure rxjs WebSocket but
+      // the backend uses stomp
       this.store.dispatch(updateStats({ newStats: message }));
     });
   }
