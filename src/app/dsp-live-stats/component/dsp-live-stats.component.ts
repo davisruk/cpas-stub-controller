@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
-import { filter, map, take, takeUntil, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/reducers';
 import { connectLiveStats, disconnectLiveStats, sendStatusQuery } from '../store/dsp-live-stats.actions';
 import { startSubscription } from './../store/dsp-live-stats.actions';
@@ -17,7 +17,6 @@ import { WebSocketStatus } from './../store/web-socket.status';
 export class DspLiveStatsComponent implements OnInit {
   trackStatus$: Observable<TrackStatus>;
   socketStatus$: Observable<WebSocketStatus>;
-  connectInitEnded$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store<AppState>) {
   }
@@ -25,19 +24,21 @@ export class DspLiveStatsComponent implements OnInit {
   ngOnInit(): void {
     this.trackStatus$ = this.store.select(selectTrackStatus);
     this.socketStatus$ = this.store.select(selectWebSocketStatus);
+    // call subscribe - not connect
+    // the connection can be made from 2 places, here and the toolbar
+    // subscribeToTopic will wait until the connetion is made
     this.subscribeToTopic();
   }
 
   subscribeToTopic(): void {
     this.socketStatus$.pipe(
-      filter(status => status.connected), // if connected
+      filter(status => status.connected), // wait until the socket is connected
+      take(1), // we only want to send one sub request so finish after this
       map(_ => {
         this.store.dispatch(startSubscription({ topic: '/topic/livestats' }));
-        this.connectInitEnded$.next(true);
         this.store.dispatch(sendStatusQuery());
       }
-      ),
-      takeUntil(this.connectInitEnded$)
+      )
     ).subscribe();
   }
 
