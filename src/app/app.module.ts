@@ -41,6 +41,7 @@ import { ToteSummaryEffects } from './tote-summary/store/tote-summary.effects';
 import { ChooseFilesDialogComponent } from './upload/component/choose-files-dialog.component';
 import { ViewMessageComponent } from './view-message/component/view-message.component';
 import { ViewMessageEffects } from './view-message/store/view-message.effects';
+import { DspLiveStatsEffects } from './dsp-live-stats/store/dsp-live-stats.effects';
 
 
 @NgModule({
@@ -67,7 +68,7 @@ import { ViewMessageEffects } from './view-message/store/view-message.effects';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    EffectsModule.forRoot([ConfigEffects, ToteSummaryEffects, ToteMessagesEffects, ViewMessageEffects]),
+    EffectsModule.forRoot([ConfigEffects, ToteSummaryEffects, ToteMessagesEffects, ViewMessageEffects, DspLiveStatsEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreRouterConnectingModule.forRoot(),
     BrowserAnimationsModule,

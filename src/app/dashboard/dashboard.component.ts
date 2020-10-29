@@ -1,33 +1,36 @@
-import { Component } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { Component, OnDestroy } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { filter, last, tap } from 'rxjs/operators';
+import { WebSocketStatus } from '../dsp-live-stats/store/web-socket.status';
+import { AppState } from '../reducers';
+import { connectLiveStats, disconnectLiveStats } from './../dsp-live-stats/store/dsp-live-stats.actions';
+import { selectWebSocketStatus } from './../dsp-live-stats/store/dsp-live-stats.selectors';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
-  /** Based on the screen size, switch from standard to one column per row */
-  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return [
-          { title: 'Card 1', cols: 1, rows: 1 },
-          { title: 'Card 2', cols: 1, rows: 1 },
-          { title: 'Card 3', cols: 1, rows: 1 },
-          { title: 'Card 4', cols: 1, rows: 1 }
-        ];
-      }
+export class DashboardComponent implements OnDestroy {
+  socketStatus$: Observable<WebSocketStatus>;
 
-      return [
-        { title: 'Card 1', cols: 2, rows: 1 },
-        { title: 'Card 2', cols: 1, rows: 1 },
-        { title: 'Card 3', cols: 1, rows: 2 },
-        { title: 'Card 4', cols: 1, rows: 1 }
-      ];
-    })
-  );
+  constructor(private store: Store<AppState>) {
+    this.socketStatus$ = this.store.select(selectWebSocketStatus);
+  }
+  ngOnDestroy(): void {
+    this.socketStatus$.pipe(
+      last(),
+      filter(status => status.connected),
+      tap(_ => this.onDisconnect())
+    ).subscribe();
+  }
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  onConnect(host: string): void {
+    this.store.dispatch(connectLiveStats({ host, topic: '/topic/livestats' }));
+  }
+
+  onDisconnect(): void {
+    this.store.dispatch(disconnectLiveStats());
+  }
 }

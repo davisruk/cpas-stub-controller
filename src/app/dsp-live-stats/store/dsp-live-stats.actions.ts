@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { TrackStatus } from './track.status';
+import { WebSocketStatus } from './web-socket.status';
 
 export const loadDspLiveStatss = createAction(
   '[DspLiveStats] Load DspLiveStats'
@@ -10,9 +11,22 @@ export const updateStats = createAction(
   props<{ newStats: TrackStatus }>()
 );
 
-export const updateSocket = createAction(
-  '[DspLiveStats] updateSocket',
-  props<{ connState: boolean }>()
+export const connectLiveStats = createAction(
+  '[DspLiveStats] connectSocket',
+  props<{ host: string; topic: string }>()
+);
+
+export const connectLiveStatsResult = createAction(
+  '[DspLiveStats] connectSocketResult',
+  props<{ result: WebSocketStatus }>()
+);
+
+export const disconnectLiveStats = createAction(
+  '[DspLiveStats] disconnectSocket'
+);
+
+export const disconnectLiveStatsSuccess = createAction(
+  '[DspLiveStats] disconnectSocketSuccess'
 );
 
 

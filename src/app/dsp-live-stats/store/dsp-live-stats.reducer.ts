@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { updateSocket, updateStats } from './dsp-live-stats.actions';
+import { connectLiveStatsResult, disconnectLiveStatsSuccess, updateStats } from './dsp-live-stats.actions';
 import { TrackStatus } from './track.status';
 import { WebSocketStatus } from './web-socket.status';
 
@@ -12,7 +12,8 @@ export interface State {
 
 export const initialState: State = {
   webSocketStatus: {
-    connected: false
+    connected: false,
+    host: ''
   },
   trackStatus: {
     activeTotes: 0,
@@ -26,6 +27,7 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
-  on(updateStats,  (state, { newStats }) => ({ ...state, trackStatus: newStats})),
-  on(updateSocket,  (state, { connState }) => ({ ...state, webSocketStatus: {connected: connState}})),
+  on(updateStats, (state, { newStats }) => ({ ...state, trackStatus: newStats })),
+  on(connectLiveStatsResult, (state, { result }) => ({ ...state, webSocketStatus: result })),
+  on(disconnectLiveStatsSuccess, (state) => initialState)
 );
