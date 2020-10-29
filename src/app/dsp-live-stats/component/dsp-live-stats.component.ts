@@ -30,7 +30,7 @@ export class DspLiveStatsComponent implements OnInit {
 
   subscribeToTopic(): void {
     this.socketStatus$.pipe(
-      filter(status => status.connected),
+      filter(status => status.connected), // if connected
       map(_ => {
         this.store.dispatch(startSubscription({ topic: '/topic/livestats' }));
         this.connectInitEnded$.next(true);
@@ -44,9 +44,9 @@ export class DspLiveStatsComponent implements OnInit {
   onConnect(): void {
     this.socketStatus$.pipe(
       take(1),
-      tap(status => this.store.dispatch(connectLiveStats({ host: status.host, topic: '/topic/livestats' })))
+      tap(status => this.store.dispatch(connectLiveStats({ host: status.host, topic: '/topic/livestats' }))),
+      tap(_ => this.subscribeToTopic())
     ).subscribe();
-    this.subscribeToTopic();
   }
 
   onDisconnect(): void {

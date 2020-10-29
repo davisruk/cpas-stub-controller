@@ -15,23 +15,23 @@ const initialSocketState: WebSocketStatus = {
   host: ''
 };
 
-const initialtrackStatus: TrackStatus = {
+const initialTrackStatus: TrackStatus = {
   activeTotes: 0,
   totesProcessed: 0,
   totalTotes: 0,
-  sendChannelClient: 'Disconnected',
-  receiveChannelClient: 'Disconnected',
+  sendChannelClient: 'Unknown',
+  receiveChannelClient: 'Unknown',
   toteNames: ['None']
 };
 
 export const initialState: State = {
   webSocketStatus: initialSocketState,
-  trackStatus: initialtrackStatus
+  trackStatus: initialTrackStatus
 };
 
 export const reducer = createReducer(
   initialState,
-  on(updateStats, (state, { newStats }) => ({ ...state, trackStatus: newStats })),
+  on(updateStats, (state, { newStats }) => reduceUpdateStats(state, newStats)),
   on(connectLiveStatsResult, (state, { result }) => ({ ...state, webSocketStatus: result })),
   on(disconnectLiveStatsSuccess, (state) => initialWithoutHostChange(state)),
   on(genericSuccess, (state) => ({ ...state }))
@@ -39,4 +39,12 @@ export const reducer = createReducer(
 
 function initialWithoutHostChange(state: State): State {
   return { ...initialState, webSocketStatus: { ...initialState.webSocketStatus, host: state.webSocketStatus.host } };
+}
+
+function reduceUpdateStats(oldState: State, newTrackStatus: TrackStatus): State {
+  if (!oldState.webSocketStatus.connected) {
+    return { ...oldState, trackStatus: initialTrackStatus };
+  } else {
+    return { ...oldState, trackStatus: newTrackStatus };
+  }
 }
