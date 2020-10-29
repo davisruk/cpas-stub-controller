@@ -35,7 +35,7 @@ export const startSubscription = createAction(
 );
 
 export const genericSuccess = createAction(
-  '[DspLiveStats] startSubscriptionSuccess',
+  '[DspLiveStats] genericSuccess',
   props<{ source: string }>()
 );
 
