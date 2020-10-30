@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Message } from '@stomp/stompjs';
 import { Observable } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/reducers';
 import { connectLiveStats, disconnectLiveStats, sendStatusQuery, updateStats } from '../store/dsp-live-stats.actions';
 import { startSubscription } from './../store/dsp-live-stats.actions';
@@ -35,7 +35,7 @@ export class DspLiveStatsComponent implements OnInit {
     this.socketStatus$.pipe(
       filter(status => status.connected), // wait until the socket is connected
       take(1), // we only want to send one sub request so finish after this
-      map(_ => {
+      tap(_ => {
         // must use => below to access correct 'this' because ... typescript :)
         // if we try to use a member function 'this' will have wrong context -
         // it will refer to the caller i.e. the stomp message handler
