@@ -16,7 +16,7 @@
                     <mat-cell class="type-cell"
                             *matCellDef="let msg">{{msg.messageType}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="message">
+                <ng-container matColumnDef="message" class="mat-column-message">
                     <mat-header-cell *matHeaderCellDef>Message</mat-header-cell>
                     <mat-cell class="message-cell"
                             *matCellDef="let msg">{{formatMessage(msg.message)}}</mat-cell>

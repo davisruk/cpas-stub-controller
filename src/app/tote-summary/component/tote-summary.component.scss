@@ -1,13 +1,11 @@
 .toteSummary > mat-card {
   width: 700px;
 }
-
 .mat-row {
   &.selected {
     background: #ff4081;
   }
 }
-
 .fill-remaining-space {
   flex: 1 1 auto;
 }
