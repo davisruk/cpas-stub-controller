@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ToteMessage } from 'src/app/view-message/store/view-message.model';
 import { ToteMessageSummary } from '../store/messages.model';
 
 @Injectable({
@@ -14,8 +15,7 @@ export class ToteMessagesService {
     return this.http.get<ToteMessageSummary>('http://localhost:8080/utils/tote/messages?toteId=' + toteId);
   }
 
-  public getMessage(msgId: number): Observable<any> {
-    return this.http.get<any>('http://localhost:8080/utils/tote/messages/prettify?messageId=' + msgId);
+  public getMessage(msgId: number): Observable<ToteMessage> {
+    return this.http.get<ToteMessage>('http://localhost:8080/utils/tote/messages/' + msgId);
   }
-
 }

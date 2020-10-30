@@ -1,13 +1,22 @@
 <mat-card class="message-view-card">
         <mat-card-header>
                 <mat-card-title style="margin-left:-18px;">Message Content</mat-card-title>
+                <button mat-mini-fab color="primary" matTooltip="Toggle Raw / Pretty View" (click)="togglePretty()"><mat-icon>flip</mat-icon></button>
         </mat-card-header>        
-        <mat-form-field class="message-view" appearance="none">
+        <mat-form-field *ngIf="pretty" class="message-view" appearance="none">
                 <textarea matInput readonly cdkTextareaAutosize
                 cdkAutosizeMinRows="2"
                 cdkAutosizeMaxRows="15"
-                placeholder="MessageContent" >{{(message$ | async) | json}}
+                placeholder="MessageContent" >{{(message$ | async).message | json}}
                 </textarea>
-        </mat-form-field>         
+        </mat-form-field>
+        <mat-form-field *ngIf="!pretty" class="message-view" appearance="none">
+                <textarea matInput readonly cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="15"
+                placeholder="MessageContent" >{{(message$ | async).rawMessage}}
+                </textarea>
+        </mat-form-field>
+
 </mat-card>
 

@@ -1,20 +1,22 @@
 import { createReducer, on } from '@ngrx/store';
 import { loadMessageSuccess, messageViewReset } from './view-message.actions';
+import { ToteMessage } from './view-message.model';
 
 export const viewMessageFeatureKey = 'viewMessage';
 export interface State {
-  // we only ever want to see the raw JSON, we will never need type safety
-  // for this part of the Store so using any is fine.
-  message: any;
+  toteMessage: ToteMessage;
 }
 
 const initialState: State = {
-  message: {}
+  toteMessage: {
+    message: {},
+    rawMessage: ''
+  }
 };
 
 export const reducer = createReducer(
   initialState,
-  on(loadMessageSuccess, (state, { result }) => ({ ...state, message: result })),
+  on(loadMessageSuccess, (state, { result }) => ({ ...state, toteMessage: result })),
   on(messageViewReset, (state) => initialState),
 );
 
