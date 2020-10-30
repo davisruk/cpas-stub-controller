@@ -4,8 +4,6 @@ import { CompatClient, Message, Stomp } from '@stomp/stompjs';
 import { Observable, of, Subject } from 'rxjs';
 import * as SockJS from 'sockjs-client';
 import { AppState } from 'src/app/reducers';
-import { updateStats } from '../store/dsp-live-stats.actions';
-import { TrackStatus } from '../store/track.status';
 import { WebSocketStatus } from './../store/web-socket.status';
 
 @Injectable({
@@ -28,16 +26,8 @@ export class WebSocketService {
     return connectResult.asObservable();
   }
 
-  startSubscription(topic: string): void {
-    this.stompClient.subscribe(topic, (sdkEvent: Message) => {
-      const message: TrackStatus = JSON.parse(sdkEvent.body);
-      // don't like this - the service shouldn't know about the store
-      // but don't want the connection in the store
-      // stomp library really needs better rxjs support
-      // could refactor this to pure rxjs WebSocket but
-      // the backend uses stomp
-      this.store.dispatch(updateStats({ newStats: message }));
-    });
+  startSubscription(topic: string, eventCallback: (sdkEvent: Message) => void): void {
+    this.stompClient.subscribe(topic, (sdkEvent: Message) => eventCallback(sdkEvent));
   }
 
   disconnectSocket(): Observable<string> {
