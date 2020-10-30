@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Message } from '@stomp/stompjs';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/reducers';
-import { connectLiveStats, disconnectLiveStats, sendStatusQuery } from '../store/dsp-live-stats.actions';
+import { connectLiveStats, disconnectLiveStats, sendStatusQuery, updateStats } from '../store/dsp-live-stats.actions';
 import { startSubscription } from './../store/dsp-live-stats.actions';
 import { selectTrackStatus, selectWebSocketStatus } from './../store/dsp-live-stats.selectors';
 import { TrackStatus } from './../store/track.status';
@@ -35,7 +36,16 @@ export class DspLiveStatsComponent implements OnInit {
       filter(status => status.connected), // wait until the socket is connected
       take(1), // we only want to send one sub request so finish after this
       map(_ => {
-        this.store.dispatch(startSubscription({ topic: '/topic/livestats' }));
+        // must use => below to access correct 'this' because ... typescript :)
+        // if we try to use a member function 'this' will have wrong context -
+        // it will refer to the caller i.e. the stomp message handler
+        // basically, don't try and move the callback out to its own function
+        this.store.dispatch(startSubscription({
+          topic: '/topic/livestats', eventHandler: (event: Message): void => {
+            const message: TrackStatus = JSON.parse(event.body);
+            this.store.dispatch(updateStats({ newStats: message }));
+          }
+        }));
         this.store.dispatch(sendStatusQuery());
       }
       )

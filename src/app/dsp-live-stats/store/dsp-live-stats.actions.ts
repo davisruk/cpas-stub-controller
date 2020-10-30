@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { Message } from '@stomp/stompjs';
 import { TrackStatus } from './track.status';
 import { WebSocketStatus } from './web-socket.status';
 
@@ -31,7 +32,7 @@ export const disconnectLiveStatsSuccess = createAction(
 
 export const startSubscription = createAction(
   '[DspLiveStats] startSubscription',
-  props<{ topic: string }>()
+  props<{ topic: string, eventHandler: (event: Message) => void }>()
 );
 
 export const genericSuccess = createAction(
