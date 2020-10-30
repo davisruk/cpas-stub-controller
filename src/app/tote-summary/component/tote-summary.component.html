@@ -42,7 +42,7 @@
         
         </mat-table>
         <mat-paginator [length]="(pageInfo$ | async).totalEntries" [pageSize]="3"
-                   [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+                   [pageSizeOptions]="[3, 5, 10]" [showFirstLastButtons]="true" ></mat-paginator>
     </mat-card-content>
 </mat-card>
 </div>
