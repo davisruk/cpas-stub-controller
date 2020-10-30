@@ -12,7 +12,7 @@ import { WebSocketStatus } from './../../dsp-live-stats/store/web-socket.status'
 import { AppState } from './../../reducers/index';
 import { ConfigService } from './../services/config.service';
 import {
-  loadConfigs, sendConfig, startOSR, stopOSR, update32RShort, updateFMD, updateMaxTotesOnTrack,
+  loadConfigs, reset, sendConfig, startOSR, stopOSR, update32RShort, updateFMD, updateMaxTotesOnTrack,
   updateReleasing, updateToteRelease, updateToteTravelTime
 } from './../store/config.actions';
 import { selectConfigFeature } from './../store/config.selectors';
@@ -94,6 +94,6 @@ export class ConfigComponent implements OnInit {
 
   onClickResetRun(): void {
     this.resetting = true;
-    this.configService.postReset().subscribe(_ => this.resetting = false);
+    this.store.dispatch(reset());
   }
 }

@@ -1,5 +1,5 @@
-import { PageRequestDetail, ToteSummaryPage } from './tote-summary.model';
 import { createAction, props } from '@ngrx/store';
+import { PageRequestDetail, ToteSummaryPage } from './tote-summary.model';
 
 export const loadToteSummarys = createAction(
   '[ToteSummary] Load ToteSummarys',
@@ -11,6 +11,9 @@ export const loadToteSummarysSuccess = createAction(
   props<{ result: ToteSummaryPage }>()
 );
 
+export const resetToteSummarys = createAction(
+  '[ToteSummary] Reset ToteSummarys'
+);
 
 
 

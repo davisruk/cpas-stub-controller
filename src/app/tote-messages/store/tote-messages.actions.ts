@@ -17,6 +17,8 @@ export const sortMessages = createAction(
   props<{ sort: Sort }>()
 );
 
-
+export const resetToteMessages = createAction(
+  '[ToteMessages] Reset ToteMessages'
+);
 
 

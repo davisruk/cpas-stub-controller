@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { connectLiveStatsResult, disconnectLiveStatsSuccess, genericSuccess, updateStats } from './dsp-live-stats.actions';
+import { connectLiveStatsResult, disconnectLiveStatsSuccess, genericSuccess, resetLiveStats, updateStats } from './dsp-live-stats.actions';
 import { TrackStatus } from './track.status';
 import { WebSocketStatus } from './web-socket.status';
 
@@ -34,7 +34,8 @@ export const reducer = createReducer(
   on(updateStats, (state, { newStats }) => reduceUpdateStats(state, newStats)),
   on(connectLiveStatsResult, (state, { result }) => ({ ...state, webSocketStatus: result })),
   on(disconnectLiveStatsSuccess, (state) => initialWithoutHostChange(state)),
-  on(genericSuccess, (state) => ({ ...state }))
+  on(genericSuccess, (state) => ({ ...state })),
+  on(resetLiveStats, (state) => ({ ...state, trackStatus: initialTrackStatus }))
 );
 
 function initialWithoutHostChange(state: State): State {

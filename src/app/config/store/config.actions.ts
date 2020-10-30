@@ -58,4 +58,5 @@ export const osrSuccess = createAction(
   props<{ config: State }>()
 );
 
-
+export const reset = createAction('[Config] Reset');
+export const resetSuccess = createAction('[Config] Reset Success');

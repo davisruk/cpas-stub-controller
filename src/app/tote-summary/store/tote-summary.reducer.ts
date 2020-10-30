@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadToteSummarysSuccess } from './tote-summary.actions';
+import { loadToteSummarysSuccess, resetToteSummarys } from './tote-summary.actions';
 import { ToteSummaryPage } from './tote-summary.model';
 
 
@@ -30,5 +30,6 @@ export const initialState: State = {
 export const reducer = createReducer(
   initialState,
   on(loadToteSummarysSuccess, (state, { result }) => ({ ...state, totePage: result })),
+  on(resetToteSummarys, (state) => initialState)
 );
 

@@ -44,4 +44,7 @@ export const sendStatusQuery = createAction(
   '[DspLiveStats] sendStatusQuery'
 );
 
+export const resetLiveStats = createAction(
+  '[DspLiveStats] resetLiveStats'
+);
 
