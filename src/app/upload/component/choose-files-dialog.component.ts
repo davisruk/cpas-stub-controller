@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UploadService } from '../services/file.upload.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { forkJoin, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { AppState } from 'src/app/reducers';
+import { UploadService } from '../services/file.upload.service';
+import { selectWebSocketStatus } from './../../dsp-live-stats/store/dsp-live-stats.selectors';
 
 @Component({
   selector: 'app-choose-files-dialog',
@@ -16,8 +19,13 @@ export class ChooseFilesDialogComponent implements OnInit {
   primaryButtonText = 'Upload';
   uploading = false;
   uploadSuccessful = false;
-
-  constructor(public dialogRef: MatDialogRef<ChooseFilesDialogComponent>, public uploadService: UploadService) { }
+  host: string;
+  socket$: Subscription;
+  constructor(public dialogRef: MatDialogRef<ChooseFilesDialogComponent>,
+    public uploadService: UploadService,
+    private store: Store<AppState>) {
+    this.socket$ = store.select(selectWebSocketStatus).subscribe(state => this.host = state.host);
+  }
 
   ngOnInit(): void {
   }
@@ -38,6 +46,7 @@ export class ChooseFilesDialogComponent implements OnInit {
   closeDialog(): void {
     // if everything was uploaded already, just close the dialog
     if (this.uploadSuccessful) {
+      this.socket$.unsubscribe();
       return this.dialogRef.close();
     }
 
@@ -47,7 +56,7 @@ export class ChooseFilesDialogComponent implements OnInit {
     this.canBeClosed = false;
 
     // start the upload and save the progress map
-    this.uploadService.upload(this.files).subscribe(response => {
+    this.uploadService.upload(this.files, this.host).subscribe(response => {
       if (response === 'Finished') {
         // The OK-button should have the text "Finish" now
         this.primaryButtonText = 'Finish';

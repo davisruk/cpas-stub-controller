@@ -10,8 +10,7 @@ export class ToteSummaryService {
 
   constructor(private http: HttpClient) { }
 
-  public getTotePage(pageRequest: PageRequestDetail): Observable<ToteSummaryPage> {
-    return this.http.get<ToteSummaryPage>('http://localhost:8080/utils/tote/page?pageSize=' + pageRequest.pageSize +
-      '&pageNumber=' + pageRequest.pageNumber + '&filter=' + pageRequest.searchTerm);
+  public getTotePage(pageRequest: PageRequestDetail, host: string): Observable<ToteSummaryPage> {
+    return this.http.get<ToteSummaryPage>(`http://${host}:8080/utils/tote/page?pageSize=${pageRequest.pageSize}&pageNumber=${pageRequest.pageNumber}&filter=${pageRequest.searchTerm}`);
   }
 }

@@ -11,11 +11,11 @@ export class ToteMessagesService {
 
   constructor(private http: HttpClient) { }
 
-  public getToteMessages(toteId: number): Observable<ToteMessageSummary> {
-    return this.http.get<ToteMessageSummary>('http://localhost:8080/utils/tote/messages?toteId=' + toteId);
+  public getToteMessages(toteId: number, host: string): Observable<ToteMessageSummary> {
+    return this.http.get<ToteMessageSummary>(`http://${host}:8080/utils/tote/messages?toteId=${toteId}`);
   }
 
-  public getMessage(msgId: number): Observable<ToteMessage> {
-    return this.http.get<ToteMessage>('http://localhost:8080/utils/tote/messages/' + msgId);
+  public getMessage(msgId: number, host: string): Observable<ToteMessage> {
+    return this.http.get<ToteMessage>(`http://${host}:8080/utils/tote/messages/${msgId}`);
   }
 }

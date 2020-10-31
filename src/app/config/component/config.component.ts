@@ -26,7 +26,6 @@ export class ConfigComponent implements OnInit {
 
   socketStatus$: Observable<WebSocketStatus>;
   config$: Observable<State>;
-  resetting = false;
 
   constructor(private store: Store<AppState>,
     public dialog: MatDialog,
@@ -93,7 +92,6 @@ export class ConfigComponent implements OnInit {
   }
 
   onClickResetRun(): void {
-    this.resetting = true;
     this.store.dispatch(reset());
   }
 }
