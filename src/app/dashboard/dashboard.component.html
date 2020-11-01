@@ -1,19 +1,27 @@
-<div fxLayout="row wrap">
-  <div fxLayout="row" fxFlex="100%">
-    <mat-toolbar color="primary">
-      CPAS Stub Control Centre
-      <span class="fill-remaining-space"></span>
-      <mat-form-field>
-        <input matInput placeholder="CPAS Stub Host" #input/>
-    </mat-form-field>
-    <button mat-mini-fab matTooltip="Set CPAS Server Host / IP" (click)="onConnect(input.value)"><mat-icon>save</mat-icon></button>
-    </mat-toolbar>
-  </div>
-  <div class="card-container" fxLayout="row wrap" fxLayoutGap="16px grid" fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="33%">
-      <app-config></app-config>
-      <app-dsp-live-stats></app-dsp-live-stats>
-      <app-tote-summary></app-tote-summary>
-      <app-tote-messages></app-tote-messages>
-      <app-view-message></app-view-message>
+<div fxLayout="row wrap" class="container-outer">
+  <div class="container-header" fxFlex="100">
+      <mat-toolbar color="primary">
+        CPAS Stub Control Centre
+        <span class="fill-remaining-space"></span>
+        <mat-form-field>
+          <input matInput placeholder="CPAS Stub Host" #input/>
+      </mat-form-field>
+      <button mat-mini-fab matTooltip="Set CPAS Server Host / IP" (click)="onConnect(input.value)"><mat-icon>save</mat-icon></button>
+      </mat-toolbar>
+  </div>  
+  <div class="content-container" fxFlex="100">
+    <div fxflex="10" fxLayout="row" class="container-left">
+      <div fxLayout="column">
+          <app-config fxFlex="50"></app-config>
+          <app-dsp-live-stats fxFlex ></app-dsp-live-stats>
+      </div>
+    </div>
+    <div fxFlex="60" fxLayout="row wrap" class="container-outer">
+      <app-tote-summary fxFlex="100"></app-tote-summary>
+      <app-tote-messages fxFlex="100"></app-tote-messages>
+    </div>
+    <div fxFlex fxLayout="row" class="container-right">
+        <app-view-message fxFill></app-view-message>
+    </div>
   </div>
 </div>
