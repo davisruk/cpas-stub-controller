@@ -9,19 +9,19 @@
       <button mat-mini-fab matTooltip="Set CPAS Server Host / IP" (click)="onConnect(input.value)"><mat-icon>save</mat-icon></button>
       </mat-toolbar>
   </div>  
-  <div class="content-container" fxFlex="100">
-    <div fxflex="10" fxLayout="row" class="container-left">
-      <div fxLayout="column">
-          <app-config fxFlex="50"></app-config>
-          <app-dsp-live-stats fxFlex ></app-dsp-live-stats>
+  <div class="content-container" fxLayout="row wrap" fxFlex="100" class="content-container">
+    <div fxflex="10" class="container-left">
+      <div fxLayout="column" fxLayoutGap="20px">
+        <app-config></app-config>
+        <app-dsp-live-stats></app-dsp-live-stats>
       </div>
     </div>
-    <div fxFlex="60" fxLayout="row wrap" class="container-outer">
-      <app-tote-summary fxFlex="100"></app-tote-summary>
-      <app-tote-messages fxFlex="100"></app-tote-messages>
+    <div fxFlex="60" fxLayout="column" fxLayoutGap="20px" class="container-outer">
+      <app-tote-summary></app-tote-summary>
+      <app-tote-messages></app-tote-messages>
     </div>
-    <div fxFlex fxLayout="row" class="container-right">
-        <app-view-message fxFill></app-view-message>
+    <div fxFlex fxLayout="column" class="container-right">
+        <app-view-message></app-view-message>
     </div>
   </div>
 </div>
