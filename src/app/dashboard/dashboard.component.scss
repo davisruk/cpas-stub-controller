@@ -1,41 +1,29 @@
 .card-container {
   min-height: 90vh;
 }
-
 .fill-remaining-space {
   flex: 1 1 auto;
 }
 
-.dash-col-1 {
-  min-height: 300px;
-}
-
-.container-middle {
-  height: 800px;
-  background-color: #eee;
-}
+// use the borders for layout visualisation
 .container-outer {
-  border: solid 3px #ffc300;
+  //  border: solid 3px #ffc300;
   padding: 10px;
 }
 .container-header {
-  border: solid 3px #900c3f;
+  //  border: solid 3px #900c3f;
   padding: 10px;
 }
 .container-left {
-  border: solid 3px #ff5733;
+  //  border: solid 3px #ff5733;
   padding: 10px;
 }
 .container-right {
-  border: solid 3px #c70039;
-  padding: 10px;
-}
-.container-right {
-  border: solid 3px blue;
+  //  border: solid 3px blue;
   padding: 10px;
 }
 .content-container {
-  min-height: 900px;
-  border: solid 3px orchid;
+  // min-height: 900px;
+  //  border: solid 3px orchid;
   padding: 10px;
 }

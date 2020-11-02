@@ -1,4 +1,4 @@
-<mat-card style="height: 30vh">
+<mat-card style="height: 38vh">
     <mat-card-header>
       <mat-card-title style="margin-left:-18px;">Live Stats</mat-card-title>
     </mat-card-header>
@@ -24,13 +24,13 @@
       <div fxLayout="row">
         Totes on track:
       </div>
-      <div fxLayout="row" *ngFor="let toteName of (trackStatus$ | async).toteNames">
+      <div class="toteNames" fxLayout="row" *ngFor="let toteName of (trackStatus$ | async).toteNames">
         <mat-label>{{toteName}}</mat-label>
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button *ngIf="!((socketStatus$ | async).connected) && (socketStatus$ | async).host.length > 0" color="primary" mat-mini-fab matTooltip="Connect To Live Stats Web Socket" (click)="onConnect()"><mat-icon>power</mat-icon></button>
-      <button *ngIf="((socketStatus$ | async).connected) && (socketStatus$ | async).host.length > 0" color="primary"  mat-mini-fab matTooltip="Disconnect From Live Stats Web Socket" (click)="onDisconnect()"><mat-icon>power_off</mat-icon></button>
+      <button *ngIf="!((socketStatus$ | async).connected) && (socketStatus$ | async).host.length > 0" color="primary" mat-fab matTooltip="Connect To Live Stats Web Socket" (click)="onConnect()"><mat-icon>power</mat-icon></button>
+      <button *ngIf="((socketStatus$ | async).connected) && (socketStatus$ | async).host.length > 0" color="primary"  mat-fab matTooltip="Disconnect From Live Stats Web Socket" (click)="onDisconnect()"><mat-icon>power_off</mat-icon></button>
     </mat-card-actions>
 </mat-card>
 

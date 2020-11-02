@@ -1,25 +1,17 @@
-<mat-card>
+<mat-card style="height: 70vh">
         <mat-card-header>
                 <mat-card-title style="margin-left:-18px;">Message Content</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-                <mat-form-field fxFlex="100" *ngIf="pretty" appearance="none">
-                        <textarea  matInput readonly cdkTextareaAutosize
-                        cdkAutosizeMinRows="2"
-                        cdkAutosizeMaxRows="40"
-                        placeholder="MessageContent" >{{(message$ | async).message | json}}
-                        </textarea>
-                </mat-form-field>
-                <mat-form-field fxFlex="100" *ngIf="!pretty" appearance="none">
-                        <textarea matInput readonly cdkTextareaAutosize
-                        cdkAutosizeMinRows="2"
-                        cdkAutosizeMaxRows="15"
-                        placeholder="MessageContent" >{{(message$ | async).rawMessage}}
-                        </textarea>
-                </mat-form-field>
+                <div *ngIf="pretty">
+                        {{(message$ | async).message | json}}
+                </div>
+                <div *ngIf="!pretty">
+                        {{(message$ | async).rawMessage}}
+                </div>
         </mat-card-content>        
         <mat-card-actions>
-                <button mat-mini-fab color="primary" matTooltip="Toggle Raw / Pretty View" (click)="togglePretty()"><mat-icon>flip</mat-icon></button>
+                <button mat-fab color="primary" matTooltip="Toggle Raw / Pretty View" (click)="togglePretty()"><mat-icon>flip</mat-icon></button>
         </mat-card-actions>
 </mat-card>
 
