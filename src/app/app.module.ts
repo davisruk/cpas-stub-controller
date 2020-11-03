@@ -31,8 +31,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ConfigComponent } from './config/component/config.component';
 import { ConfigEffects } from './config/store/config.effects';
+import { CustomBreakPointsProvider } from './dashboard/custom-breakpoints';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DspLiveStatsComponent } from './dsp-live-stats/component/dsp-live-stats.component';
+import { DspLiveStatsEffects } from './dsp-live-stats/store/dsp-live-stats.effects';
 import { metaReducers, reducers } from './reducers';
 import { ToteMessagesComponent } from './tote-messages/component/tote-messages.component';
 import { ToteMessagesEffects } from './tote-messages/store/tote-messages.effects';
@@ -41,8 +43,6 @@ import { ToteSummaryEffects } from './tote-summary/store/tote-summary.effects';
 import { ChooseFilesDialogComponent } from './upload/component/choose-files-dialog.component';
 import { ViewMessageComponent } from './view-message/component/view-message.component';
 import { ViewMessageEffects } from './view-message/store/view-message.effects';
-import { DspLiveStatsEffects } from './dsp-live-stats/store/dsp-live-stats.effects';
-
 
 @NgModule({
   declarations: [
@@ -87,7 +87,7 @@ import { DspLiveStatsEffects } from './dsp-live-stats/store/dsp-live-stats.effec
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [],
+  providers: [CustomBreakPointsProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

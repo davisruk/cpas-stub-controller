@@ -1,5 +1,5 @@
-<div fxLayout="column" class="container-outer">
-  <div class="container-header">
+<div fxLayout="row wrap" class="container-outer">
+  <div fxFlex="100" class="container-header">
       <mat-toolbar color="primary">
         CPAS Stub Control Centre
         <span class="fill-remaining-space"></span>
@@ -9,19 +9,25 @@
       <button mat-mini-fab matTooltip="Set CPAS Server Host / IP" (click)="onConnect(input.value)"><mat-icon>save</mat-icon></button>
       </mat-toolbar>
   </div>  
-  <div class="content-container" fxLayout="row" fxFlex="100" class="content-container">
-    <div fxflex="10" class="container-left">
-      <div fxLayout="column" fxLayoutGap="20px">
-        <app-config></app-config>
-        <app-dsp-live-stats></app-dsp-live-stats>
+  <div class="container-content" fxLayout="row wrap" fxFlex="100">
+    <div fxFlex="20" fxFlex.lt-lg="100" fxFlex.lt-xl="30" fxLayout="row wrap" fxLayout.lt-lg="row" class="container-stats" fxLayoutGap="20px">
+        <div fxFlex="100" fxFlex.lt-lg="50">
+          <app-config></app-config>
+        </div>
+        <div fxFlex="100" fxFlex.lt-lg="50">
+          <app-dsp-live-stats></app-dsp-live-stats>
+        </div>
+    </div>
+    <div fxFlex fxFlex.lt-lg="100" fxLayout="row wrap" fxLayoutGap="20px" class="container-totes">
+      <div fxFlex="100">
+        <app-tote-summary></app-tote-summary>
+      </div>
+      <div fxFlex="100">
+        <app-tote-messages></app-tote-messages>
       </div>
     </div>
-    <div fxFlex fxLayout="column" fxLayoutGap="20px" class="container-outer">
-      <app-tote-summary></app-tote-summary>
-      <app-tote-messages></app-tote-messages>
-    </div>
-    <div fxFlex="25" fxLayout="column" class="container-right">
-        <app-view-message></app-view-message>
+    <div fxLayout="row wrap" fxFlex="20" fxFlex.lt-xl="100" class="container-message">
+        <app-view-message fxFill></app-view-message>
     </div>
   </div>
 </div>
