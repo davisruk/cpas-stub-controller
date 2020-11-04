@@ -1,10 +1,10 @@
 import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Store } from '@ngrx/store';
-import { fromEvent, iif, Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map, mergeMap, take, tap } from 'rxjs/operators';
+import { fromEvent, iif, Observable, of, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/reducers';
 import { loadToteMessages } from 'src/app/tote-messages/store/tote-messages.actions';
 import { messageViewReset } from 'src/app/view-message/store/view-message.actions';
@@ -18,11 +18,11 @@ import { selectPageResponseDetail } from './../store/tote-summary.selectors';
   templateUrl: './tote-summary.component.html',
   styleUrls: ['./tote-summary.component.scss']
 })
-export class ToteSummaryComponent implements OnInit, AfterViewInit {
+export class ToteSummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('input') input: ElementRef;
 
-
+  unsubscribe$ = new Subject<void>();
   dataSource: ToteSummaryDataSource;
   pageInfo$: Observable<PageResponseDetail>;
   noIdColumn$: Observable<string[]> = of(['toteType', 'orderId', 'sheetNumber', 'containerIdentifier']);
@@ -41,6 +41,7 @@ export class ToteSummaryComponent implements OnInit, AfterViewInit {
     // server-side search
     fromEvent(this.input.nativeElement, 'keyup')
       .pipe(
+        takeUntil(this.unsubscribe$),
         debounceTime(150),
         distinctUntilChanged(),
         tap(() => {
@@ -55,6 +56,7 @@ export class ToteSummaryComponent implements OnInit, AfterViewInit {
     // angular material table does not obey fxHide / fxShow so we have to manually
     // listen for media breakpoints and show / hide the columns accordingly
     this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.HandsetPortrait]).pipe(
+      takeUntil(this.unsubscribe$),
       filter(breakpointState => breakpointState.matches),
       mergeMap(breakpointState => iif(
         () => breakpointState.breakpoints[Breakpoints.HandsetPortrait], this.noIdColumn$, this.allColumns$
@@ -81,10 +83,16 @@ export class ToteSummaryComponent implements OnInit, AfterViewInit {
       take(1),
       map(_ => this.dataSource.loadTotes(1)),
       tap(_ => this.paginator.page.pipe(
+        takeUntil(this.unsubscribe$),
         tap(() => this.loadTotesPage())
       ).subscribe()
       )
     ).subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   loadTotesPage(): void {

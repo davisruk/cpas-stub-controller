@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/reducers';
 import { UploadService } from '../services/file.upload.service';
 import { selectWebSocketStatus } from './../../dsp-live-stats/store/dsp-live-stats.selectors';
@@ -21,10 +22,16 @@ export class ChooseFilesDialogComponent implements OnInit {
   uploadSuccessful = false;
   host: string;
   socket$: Subscription;
+  unsubscribe$ = new Subject<void>();
+
   constructor(public dialogRef: MatDialogRef<ChooseFilesDialogComponent>,
     public uploadService: UploadService,
     private store: Store<AppState>) {
-    this.socket$ = store.select(selectWebSocketStatus).subscribe(state => this.host = state.host);
+
+    this.socket$ = this.store.select(selectWebSocketStatus).pipe(
+      takeUntil(this.unsubscribe$),
+      tap(state => this.host = state.host)
+    ).subscribe();
   }
 
   ngOnInit(): void {
@@ -46,7 +53,8 @@ export class ChooseFilesDialogComponent implements OnInit {
   closeDialog(): void {
     // if everything was uploaded already, just close the dialog
     if (this.uploadSuccessful) {
-      this.socket$.unsubscribe();
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete();
       return this.dialogRef.close();
     }
 
@@ -55,19 +63,19 @@ export class ChooseFilesDialogComponent implements OnInit {
     this.uploadSuccessful = false;
     this.canBeClosed = false;
 
-    // start the upload and save the progress map
-    this.uploadService.upload(this.files, this.host).subscribe(response => {
-      if (response === 'Finished') {
-        // The OK-button should have the text "Finish" now
-        this.primaryButtonText = 'Finish';
-
-        // The dialog should not be closed while uploading
-        this.canBeClosed = true;
-        this.dialogRef.disableClose = false;
-        this.uploadSuccessful = true;
-        // ... and the component is no longer uploading
-        this.uploading = false;
-      }
-    });
+    this.uploadService.upload(this.files, this.host).pipe(
+      takeUntil(this.unsubscribe$),
+      tap(response => {
+        if (response === 'Finished') {
+          this.primaryButtonText = 'Finish';
+          // The dialog should not be closed while uploading
+          this.canBeClosed = true;
+          this.dialogRef.disableClose = false;
+          this.uploadSuccessful = true;
+          // ... and the component is no longer uploading
+          this.uploading = false;
+        }
+      })
+    ).subscribe();
   }
 }
