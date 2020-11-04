@@ -1,9 +1,10 @@
 import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Store } from '@ngrx/store';
-import { fromEvent, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
+import { fromEvent, iif, Observable, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/reducers';
 import { loadToteMessages } from 'src/app/tote-messages/store/tote-messages.actions';
 import { messageViewReset } from 'src/app/view-message/store/view-message.actions';
@@ -17,44 +18,58 @@ import { selectPageResponseDetail } from './../store/tote-summary.selectors';
   templateUrl: './tote-summary.component.html',
   styleUrls: ['./tote-summary.component.scss']
 })
-export class ToteSummaryComponent implements OnInit, AfterViewInit{
+export class ToteSummaryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('input') input: ElementRef;
 
 
   dataSource: ToteSummaryDataSource;
   pageInfo$: Observable<PageResponseDetail>;
-  displayedColumns = ['id', 'toteType', 'orderId', 'sheetNumber', 'containerIdentifier'];
+  noIdColumn$: Observable<string[]> = of(['toteType', 'orderId', 'sheetNumber', 'containerIdentifier']);
+  allColumns$: Observable<string[]> = of(['id', 'toteType', 'orderId', 'sheetNumber', 'containerIdentifier']);
+  displayedColumns: string[];
+
   selection = new SelectionModel<ToteSummary>(false, null);
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, public breakpointObserver: BreakpointObserver) {
     this.pageInfo$ = this.store.select(selectPageResponseDetail);
     this.dataSource = new ToteSummaryDataSource(this.store);
+    this.allColumns$.pipe(take(1)).subscribe(ret => this.displayedColumns = ret);
   }
 
   ngAfterViewInit(): void {
-      // server-side search
-      fromEvent(this.input.nativeElement, 'keyup')
-          .pipe(
-              debounceTime(150),
-              distinctUntilChanged(),
-              tap(() => {
-                  this.paginator.pageIndex = 0;
-                  this.loadTotesPage();
-              })
-          )
-          .subscribe();
+    // server-side search
+    fromEvent(this.input.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(150),
+        distinctUntilChanged(),
+        tap(() => {
+          this.paginator.pageIndex = 0;
+          this.loadTotesPage();
+        })
+      )
+      .subscribe();
   }
 
   ngOnInit(): void {
-    this.selection.changed.subscribe((change: SelectionChange<ToteSummary>) =>
-    {
-        const selectedTote: ToteSummary = change.added[0];
-        if (selectedTote)   // will be undefined if no selection
-        {
-            this.store.dispatch(loadToteMessages({toteId: selectedTote.id}));
-            this.store.dispatch(messageViewReset());
-        }
+    // angular material table does not obey fxHide / fxShow so we have to manually
+    // listen for media breakpoints and show / hide the columns accordingly
+    this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.HandsetPortrait]).pipe(
+      filter(breakpointState => breakpointState.matches),
+      mergeMap(breakpointState => iif(
+        () => breakpointState.breakpoints[Breakpoints.HandsetPortrait], this.noIdColumn$, this.allColumns$
+      )
+      ),
+      tap(res => this.displayedColumns = res)
+    ).subscribe();
+
+    this.selection.changed.subscribe((change: SelectionChange<ToteSummary>) => {
+      const selectedTote: ToteSummary = change.added[0];
+      if (selectedTote)   // will be undefined if no selection
+      {
+        this.store.dispatch(loadToteMessages({ toteId: selectedTote.id }));
+        this.store.dispatch(messageViewReset());
+      }
     });
 
     // there will be no totes until a client has connected to the server
@@ -66,8 +81,8 @@ export class ToteSummaryComponent implements OnInit, AfterViewInit{
       take(1),
       map(_ => this.dataSource.loadTotes(1)),
       tap(_ => this.paginator.page.pipe(
-          tap(() => this.loadTotesPage())
-        ).subscribe()
+        tap(() => this.loadTotesPage())
+      ).subscribe()
       )
     ).subscribe();
   }
