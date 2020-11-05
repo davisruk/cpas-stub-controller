@@ -52,7 +52,10 @@ export const sendConfigSuccess = createAction(
 
 export const startOSR = createAction('[Config] startOSR');
 export const stopOSR = createAction('[Config] stopOSR');
-
+export const setProcessing = createAction(
+  '[Config] setProcessing',
+  props<{ val: boolean }>()
+);
 export const osrSuccess = createAction(
   '[Config] OSR Toggle Success',
   props<{ config: State }>()

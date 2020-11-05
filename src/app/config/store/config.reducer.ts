@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import {
-  loadConfigSuccess, osrSuccess, resetSuccess, sendConfigSuccess, update32RShort, updateFMD,
+  loadConfigSuccess, osrSuccess, resetSuccess, sendConfigSuccess, setProcessing, update32RShort, updateFMD,
   updateMaxTotesOnTrack, updateReleasing, updateToteRelease, updateToteTravelTime
 } from './config.actions';
 
@@ -15,10 +15,12 @@ export interface State {
   releasing: boolean;
   includeFMD: boolean;
   sendThirtyTwoRShort: boolean;
+  processingStarted: boolean;
 }
 
 export const initialState: State = {
   changed: false,
+  processingStarted: false,
   toteReleaseInterval: 100,
   toteTrackTravelTime: 100,
   maxTotesOnTrack: 7,
@@ -40,5 +42,6 @@ export const reducer = createReducer(
   on(sendConfigSuccess, (state, { config }) => ({ ...state, ...config, changed: false })),
   on(osrSuccess, (state, { config }) => ({ ...state, ...config })),
   on(resetSuccess, () => initialState),
+  on(setProcessing, (state, { val }) => ({ ...state, processingStarted: val })),
 );
 

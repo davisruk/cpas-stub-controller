@@ -3,18 +3,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSliderChange } from '@angular/material/slider';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, last, tap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { filter, last, takeUntil, tap } from 'rxjs/operators';
 import { connectLiveStats, disconnectLiveStats } from 'src/app/dsp-live-stats/store/dsp-live-stats.actions';
 import { UploadService } from 'src/app/upload/services/file.upload.service';
 import { ChooseFilesDialogComponent } from '../../upload/component/choose-files-dialog.component';
 import { State } from '../store/config.reducer';
-import { selectWebSocketStatus } from './../../dsp-live-stats/store/dsp-live-stats.selectors';
+import { selectTrackStatus, selectWebSocketStatus } from './../../dsp-live-stats/store/dsp-live-stats.selectors';
+import { TrackStatus } from './../../dsp-live-stats/store/track.status';
 import { WebSocketStatus } from './../../dsp-live-stats/store/web-socket.status';
 import { AppState } from './../../reducers/index';
 import { ConfigService } from './../services/config.service';
 import {
-  loadConfigs, reset, sendConfig, startOSR, stopOSR, update32RShort, updateFMD, updateMaxTotesOnTrack,
+  loadConfigs, reset, sendConfig, setProcessing, startOSR, stopOSR, update32RShort, updateFMD, updateMaxTotesOnTrack,
   updateReleasing, updateToteRelease, updateToteTravelTime
 } from './../store/config.actions';
 import { selectConfigFeature } from './../store/config.selectors';
@@ -28,6 +29,8 @@ export class ConfigComponent implements OnInit, OnDestroy {
 
   socketStatus$: Observable<WebSocketStatus>;
   config$: Observable<State>;
+  liveStats$: Observable<TrackStatus>;
+  unsubscribe$ = new Subject<void>();
 
   constructor(private store: Store<AppState>,
     public dialog: MatDialog,
@@ -36,13 +39,21 @@ export class ConfigComponent implements OnInit, OnDestroy {
 
     this.socketStatus$ = this.store.select(selectWebSocketStatus);
     this.config$ = this.store.select(selectConfigFeature);
+    this.liveStats$ = this.store.select(selectTrackStatus);
   }
   ngOnInit(): void {
     this.store.dispatch(loadConfigs());
+    this.liveStats$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(stats => stats.totalTotes > 0),
+      tap(_ => this.store.dispatch(setProcessing({ val: true })))
+    ).subscribe();
   }
 
   ngOnDestroy(): void {
     this.onDisconnect();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   openUploadDialog(): void {
