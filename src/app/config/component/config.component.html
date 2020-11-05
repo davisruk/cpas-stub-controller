@@ -4,31 +4,37 @@
     </mat-card-header>
     <mat-card-content>
       <div fxLayout="row">
+        <mat-form-field fxFlex="60">
+          <input matInput placeholder="CPAS Stub Host" #input/>
+        </mat-form-field>
+        <button mat-mini-fab color="primary" matTooltip="Set CPAS Server Host / IP" (click)="onConnect(input.value)"><mat-icon>save</mat-icon></button>
+      </div>
+      <div fxLayout="row">
         <mat-label class="mat-label-slide-toggle" fxFlex="60%">OSR Releasing</mat-label>
-        <mat-slide-toggle class="config-slide-toggle" labelPosition="before" [disabled] = true [checked] = "(config$ | async).releasing"></mat-slide-toggle>
+        <mat-slide-toggle color="primary" class="config-slide-toggle" labelPosition="before" [disabled] = true [checked] = "(config$ | async).releasing"></mat-slide-toggle>
       </div>
       <div fxLayout="row">
         <mat-label class="mat-label-slide-toggle" fxFlex="60%">Include FMD</mat-label>
-        <mat-slide-toggle [disabled] = "(config$ | async).releasing" class="config-slide-toggle" labelPosition="before" (change)="onChangeFMD($event)" [checked] = "(config$ | async).includeFMD"></mat-slide-toggle>
+        <mat-slide-toggle color="primary" [disabled] = "(config$ | async).releasing" class="config-slide-toggle" labelPosition="before" (change)="onChangeFMD($event)" [checked] = "(config$ | async).includeFMD"></mat-slide-toggle>
       </div>
       <div fxLayout="row">
         <mat-label class="mat-label-slide-toggle" fxFlex="60%"> Send 32R Short</mat-label>
-        <mat-slide-toggle class="config-slide-toggle" [disabled] = "(config$ | async).releasing" labelPosition="before" (change)="onChange32RShort($event)" [checked] = "(config$ | async).sendThirtyTwoRShort"></mat-slide-toggle>
+        <mat-slide-toggle color="primary" class="config-slide-toggle" [disabled] = "(config$ | async).releasing" labelPosition="before" (change)="onChange32RShort($event)" [checked] = "(config$ | async).sendThirtyTwoRShort"></mat-slide-toggle>
       </div>
       <div fxLayout="row">
         <mat-label class="mat-label-slider" fxFlex="60%">Tote Release Interval</mat-label>
-        <mat-slider labelPosition="before" [disabled] = "(config$ | async).releasing" [value] = "(config$ | async).toteReleaseInterval" (change)="onChangeToteInterval($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="5000"></mat-slider>
+        <mat-slider color="primary" labelPosition="before" [disabled] = "(config$ | async).releasing" [value] = "(config$ | async).toteReleaseInterval" (change)="onChangeToteInterval($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="5000"></mat-slider>
       </div>
       <div fxLayout="row">
         <mat-label class="mat-label-slider" fxFlex="60%">Tote Track Travel Time</mat-label>
-        <mat-slider labelPosition="before" [disabled] = "(config$ | async).releasing" [value] = "(config$ | async).toteTrackTravelTime" (change)="onChangeTravelTime($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="10000"></mat-slider>
+        <mat-slider color="primary" labelPosition="before" [disabled] = "(config$ | async).releasing" [value] = "(config$ | async).toteTrackTravelTime" (change)="onChangeTravelTime($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="10000"></mat-slider>
       </div>  
       <div fxLayout="row">
         <mat-label class="mat-label-slider" fxFlex="60%"> Max Totes On Track</mat-label>
-        <mat-slider labelPosition="before" [disabled] = "(config$ | async).releasing" [value] = "(config$ | async).maxTotesOnTrack" (change)="onChangeMaxTotes($event)" thumbLabel min="1" max="10"></mat-slider>
+        <mat-slider color="primary" labelPosition="before" [disabled] = "(config$ | async).releasing" [value] = "(config$ | async).maxTotesOnTrack" (change)="onChangeMaxTotes($event)" thumbLabel min="1" max="10"></mat-slider>
       </div>    
     </mat-card-content>
-    <mat-card-actions *ngIf="(socketStatus$ | async).host.length > 0" fxLayout="row" fxLayoutAlign='space-evenly center'>
+    <mat-card-actions *ngIf="(socketStatus$ | async).connected" fxLayout="row" fxLayoutAlign='space-evenly center'>
       <button mat-fab matTooltip="Send Config To Server" [disabled] = "(config$ | async).releasing" color='primary' (click)='onClickSendConfig()'>
         <mat-icon>save</mat-icon>
       </button>

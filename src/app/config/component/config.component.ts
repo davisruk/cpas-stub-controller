@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSliderChange } from '@angular/material/slider';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { filter, last, tap } from 'rxjs/operators';
+import { connectLiveStats, disconnectLiveStats } from 'src/app/dsp-live-stats/store/dsp-live-stats.actions';
 import { UploadService } from 'src/app/upload/services/file.upload.service';
 import { ChooseFilesDialogComponent } from '../../upload/component/choose-files-dialog.component';
 import { State } from '../store/config.reducer';
@@ -22,7 +24,7 @@ import { selectConfigFeature } from './../store/config.selectors';
   templateUrl: './config.component.html',
   styleUrls: ['./config.component.scss']
 })
-export class ConfigComponent implements OnInit {
+export class ConfigComponent implements OnInit, OnDestroy {
 
   socketStatus$: Observable<WebSocketStatus>;
   config$: Observable<State>;
@@ -35,6 +37,13 @@ export class ConfigComponent implements OnInit {
     this.socketStatus$ = this.store.select(selectWebSocketStatus);
     this.config$ = this.store.select(selectConfigFeature);
   }
+  ngOnInit(): void {
+    this.store.dispatch(loadConfigs());
+  }
+
+  ngOnDestroy(): void {
+    this.onDisconnect();
+  }
 
   openUploadDialog(): void {
     this.dialog.open(ChooseFilesDialogComponent, {
@@ -43,8 +52,17 @@ export class ConfigComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.store.dispatch(loadConfigs());
+  onConnect(host: string): void {
+    this.onDisconnect();
+    this.store.dispatch(connectLiveStats({ host, topic: '/topic/livestats' }));
+  }
+
+  onDisconnect(): void {
+    this.socketStatus$.pipe(
+      last(),
+      filter(status => status.connected),
+      tap(_ => this.store.dispatch(disconnectLiveStats()))
+    ).subscribe();
   }
 
   onChangeFMD(event: MatSlideToggleChange): void {
