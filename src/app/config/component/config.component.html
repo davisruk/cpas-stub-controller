@@ -35,16 +35,16 @@
       </div>    
     </mat-card-content>
     <mat-card-actions *ngIf="(socketStatus$ | async).connected" fxLayout="row" fxLayoutAlign='space-evenly center'>
-      <button mat-fab matTooltip="Send Config To Server" [disabled] = "(config$ | async).releasing" color='primary' (click)='onClickSendConfig()'>
+      <button mat-fab matTooltip="Send Config To Server" [disabled] = "(config$ | async).releasing || (!(config$ | async).changed && !(config$ | async).releasing)" color='primary' (click)='onClickSendConfig()'>
         <mat-icon>save</mat-icon>
       </button>
       <button mat-fab matTooltip="Upload Master Data" [disabled] = "(config$ | async).releasing" color='primary' (click)="openUploadDialog()">
         <mat-icon>cloud_upload</mat-icon>
       </button>
-      <button [hidden]="(config$ | async).releasing" mat-fab matTooltip="Start OSR Release" color='primary' (click)="onClickOSRStart()">
+      <button *ngIf="!(config$ | async).releasing" mat-fab matTooltip="Start OSR Release" color='primary' (click)="onClickOSRStart()">
         <mat-icon>play_arrow</mat-icon>
       </button>
-      <button [hidden]="!(config$ | async).releasing" mat-fab matTooltip="Stop OSR Release" color='primary' (click)="onClickOSRStop()">
+      <button *ngIf="(config$ | async).releasing" mat-fab matTooltip="Stop OSR Release" color='primary' (click)="onClickOSRStop()">
         <mat-icon>stop</mat-icon>
       </button>
       <button mat-fab matTooltip="Reset Run" [disabled] = "(config$ | async).releasing" color='primary' (click)="onClickResetRun()">

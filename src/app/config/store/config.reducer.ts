@@ -8,6 +8,7 @@ import {
 export const configFeatureKey = 'config';
 
 export interface State {
+  changed: boolean;
   toteReleaseInterval: number;
   toteTrackTravelTime: number;
   maxTotesOnTrack: number;
@@ -17,6 +18,7 @@ export interface State {
 }
 
 export const initialState: State = {
+  changed: false,
   toteReleaseInterval: 100,
   toteTrackTravelTime: 100,
   maxTotesOnTrack: 7,
@@ -29,14 +31,14 @@ export const initialState: State = {
 export const reducer = createReducer(
   initialState,
   on(loadConfigSuccess, (state, { config }) => ({ ...state, ...config })),
-  on(updateReleasing, (state, { isReleasing }) => ({ ...state, releasing: isReleasing })),
-  on(updateFMD, (state, { include }) => ({ ...state, includeFMD: include })),
-  on(update32RShort, (state, { send32R }) => ({ ...state, sendThirtyTwoRShort: send32R })),
-  on(updateToteRelease, (state, { interval }) => ({ ...state, toteReleaseInterval: interval })),
-  on(updateToteTravelTime, (state, { interval }) => ({ ...state, toteTrackTravelTime: interval })),
-  on(updateMaxTotesOnTrack, (state, { totes }) => ({ ...state, maxTotesOnTrack: totes })),
-  on(sendConfigSuccess, (state, { config }) => ({ ...state, ...config })),
+  on(updateReleasing, (state, { isReleasing }) => ({ ...state, releasing: isReleasing, changed: true })),
+  on(updateFMD, (state, { include }) => ({ ...state, includeFMD: include, changed: true })),
+  on(update32RShort, (state, { send32R }) => ({ ...state, sendThirtyTwoRShort: send32R, changed: true })),
+  on(updateToteRelease, (state, { interval }) => ({ ...state, toteReleaseInterval: interval, changed: true })),
+  on(updateToteTravelTime, (state, { interval }) => ({ ...state, toteTrackTravelTime: interval, changed: true })),
+  on(updateMaxTotesOnTrack, (state, { totes }) => ({ ...state, maxTotesOnTrack: totes, changed: true })),
+  on(sendConfigSuccess, (state, { config }) => ({ ...state, ...config, changed: false })),
   on(osrSuccess, (state, { config }) => ({ ...state, ...config })),
-  on(resetSuccess, (state) => initialState),
+  on(resetSuccess, () => initialState),
 );
 
