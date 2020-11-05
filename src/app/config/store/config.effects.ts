@@ -56,6 +56,7 @@ export class ConfigEffects {
     tap(_ => this.store.dispatch(resetToteMessages())),
     tap(_ => this.store.dispatch(resetToteSummarys())),
     tap(_ => this.store.dispatch(messageViewReset())),
+    tap(_ => this.store.dispatch(loadConfigs())),
     map(_ => resetSuccess())
   ));
 

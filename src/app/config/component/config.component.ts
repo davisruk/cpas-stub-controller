@@ -48,6 +48,12 @@ export class ConfigComponent implements OnInit, OnDestroy {
       filter(stats => stats.totalTotes > 0),
       tap(_ => this.store.dispatch(setProcessing({ val: true })))
     ).subscribe();
+
+    this.socketStatus$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(socket => socket.connected),
+      tap(_ => this.store.dispatch(loadConfigs()))
+    ).subscribe();
   }
 
   ngOnDestroy(): void {
