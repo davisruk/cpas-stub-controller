@@ -22,6 +22,9 @@
         <mat-label>Totes Processed: {{(trackStatus$ | async).totesProcessed}}</mat-label>
       </div>
       <div fxLayout="row">
+        <mat-label>Totes Released: {{(trackStatus$ | async).totesReleased}}</mat-label>
+      </div>
+      <div fxLayout="row">
         Totes on track:
       </div>
       <div class="toteNames" fxLayout="row" *ngFor="let toteName of (trackStatus$ | async).toteNames">

@@ -19,6 +19,7 @@ const initialTrackStatus: TrackStatus = {
   activeTotes: 0,
   totesProcessed: 0,
   totalTotes: 0,
+  totesReleased: 0,
   sendChannelClient: 'Unknown',
   receiveChannelClient: 'Unknown',
   toteNames: ['None']
