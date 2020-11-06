@@ -26,12 +26,12 @@
         <mat-slider color="primary" labelPosition="before" [disabled] = "(config$ | async).releasing" [value] = "(config$ | async).toteReleaseInterval" (change)="onChangeToteInterval($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="5000"></mat-slider>
       </div>
       <div fxLayout="row">
-        <mat-label class="mat-label-slider" fxFlex="60%">Tote Track Travel Time</mat-label>
-        <mat-slider color="primary" labelPosition="before" [disabled] = "(config$ | async).releasing" [value] = "(config$ | async).toteTrackTravelTime" (change)="onChangeTravelTime($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="10000"></mat-slider>
+        <mat-label class="mat-label-slider" fxFlex="60%">Min Track Travel Time</mat-label>
+        <mat-slider color="primary" matTooltip="Totes will spend at least this long on track" labelPosition="before" [disabled] = "(config$ | async).releasing" [value] = "(config$ | async).toteTrackTravelTime" (change)="onChangeTravelTime($event)" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="10000"></mat-slider>
       </div>  
       <div fxLayout="row">
-        <mat-label class="mat-label-slider" fxFlex="60%"> Max Totes On Track</mat-label>
-        <mat-slider color="primary" labelPosition="before" [disabled] = "(config$ | async).releasing" [value] = "(config$ | async).maxTotesOnTrack" (change)="onChangeMaxTotes($event)" thumbLabel min="1" max="10"></mat-slider>
+        <mat-label class="mat-label-slider" fxFlex="60%">Totes On Track Target</mat-label>
+        <mat-slider color="primary" matTooltip="Concurrent totes to aim for - sometimes it will be more, sometimes less" labelPosition="before" [disabled] = "(config$ | async).releasing" [value] = "(config$ | async).maxTotesOnTrack" (change)="onChangeMaxTotes($event)" thumbLabel min="1" max="10"></mat-slider>
       </div>    
     </mat-card-content>
     <mat-card-actions *ngIf="(socketStatus$ | async).connected" fxLayout="row" fxLayoutAlign='space-evenly center'>

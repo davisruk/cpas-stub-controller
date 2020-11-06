@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/reducers';
 import { connectLiveStats, disconnectLiveStats, sendStatusQuery, updateStats } from '../store/dsp-live-stats.actions';
+import { selectReleasing } from './../../config/store/config.selectors';
 import { startSubscription } from './../store/dsp-live-stats.actions';
 import { selectTrackStatus, selectWebSocketStatus } from './../store/dsp-live-stats.selectors';
 import { TrackStatus } from './../store/track.status';
@@ -18,6 +19,7 @@ import { WebSocketStatus } from './../store/web-socket.status';
 export class DspLiveStatsComponent implements OnInit {
   trackStatus$: Observable<TrackStatus>;
   socketStatus$: Observable<WebSocketStatus>;
+  releasing$: Observable<boolean>;
 
   constructor(private store: Store<AppState>) {
   }
@@ -25,6 +27,7 @@ export class DspLiveStatsComponent implements OnInit {
   ngOnInit(): void {
     this.trackStatus$ = this.store.select(selectTrackStatus);
     this.socketStatus$ = this.store.select(selectWebSocketStatus);
+    this.releasing$ = this.store.select(selectReleasing);
     // call subscribe - not connect
     // the connection can be made from 2 places, here and the toolbar
     // subscribeToTopic will wait until the connetion is made
