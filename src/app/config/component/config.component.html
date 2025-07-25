@@ -37,7 +37,7 @@
       <div fxLayout="row">
         <mat-label class="mat-label-slider" fxFlex="60%">Min Track Travel Time</mat-label>
         <mat-slider color="primary" matTooltip="Totes will spend at least this long on track" labelPosition="before" [disabled] = "(config$ | async).releasing" thumbLabel [displayWith]="formatSecondsLabel" min="1" max="10000">
-          <input matSliderThumb [value] = "(config$ | async).releasing"
+          <input matSliderThumb [value] = "(config$ | async).toteTrackTravelTime"
             (valueChange)="onChangeTravelTime($event)">
         </mat-slider>      
       </div>  
