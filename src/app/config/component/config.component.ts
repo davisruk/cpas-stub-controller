@@ -90,16 +90,16 @@ export class ConfigComponent implements OnInit, OnDestroy {
     this.store.dispatch(update32RShort({ send32R: event.checked }));
   }
 
-  onChangeToteInterval(event: MatSliderChange): void {
-    this.store.dispatch(updateToteRelease({ interval: event.value }));
+  onChangeToteInterval(event: number): void {
+    this.store.dispatch(updateToteRelease({ interval: event }));
   }
 
-  onChangeTravelTime(event: MatSliderChange): void {
-    this.store.dispatch(updateToteTravelTime({ interval: event.value }));
+  onChangeTravelTime(event: number): void {
+    this.store.dispatch(updateToteTravelTime({ interval: event }));
   }
 
-  onChangeMaxTotes(event: MatSliderChange): void {
-    this.store.dispatch(updateMaxTotesOnTrack({ totes: event.value }));
+  onChangeMaxTotes(event: number): void {
+    this.store.dispatch(updateMaxTotesOnTrack({ totes: event }));
   }
 
   onChangeReleasing(event: MatSlideToggleChange): void {
