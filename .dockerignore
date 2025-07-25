@@ -7,3 +7,4 @@
 .gitignore
 *.zip
 *.md
+package-lock.json
