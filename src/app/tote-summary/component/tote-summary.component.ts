@@ -16,7 +16,8 @@ import { selectPageResponseDetail } from './../store/tote-summary.selectors';
 @Component({
   selector: 'app-tote-summary',
   templateUrl: './tote-summary.component.html',
-  styleUrls: ['./tote-summary.component.scss']
+  styleUrls: ['./tote-summary.component.scss'],
+  standalone: false
 })
 export class ToteSummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;

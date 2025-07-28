@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CompatClient, Message, Stomp } from '@stomp/stompjs';
 import { Observable, of, Subject } from 'rxjs';
-import * as SockJS from 'sockjs-client';
+import SockJS from 'sockjs-client';
 import { AppState } from 'src/app/reducers';
 import { WebSocketStatus } from './../store/web-socket.status';
 

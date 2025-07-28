@@ -2,6 +2,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
+  "defaultProject": "cpas-control-centre", 
   "projects": {
     "cpas-control-centre": {
       "projectType": "application",
@@ -17,10 +18,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "main": "src/main.ts",
             "outputPath": "dist/cpas-control-centre",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
@@ -60,24 +61,33 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "cpas-control-centre:build"
+            "buildTarget": "cpas-control-centre:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "cpas-control-centre:build:production"
+              "buildTarget": "cpas-control-centre:build:production"
+            },
+            "development": {
+              "buildTarget": "cpas-control-centre:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cpas-control-centre:build"
+            "buildTarget": "cpas-control-centre:build"
           }
         },
         "test": {
@@ -97,33 +107,11 @@
             ],
             "scripts": []
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "cpas-control-centre:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "cpas-control-centre:serve:production"
-            }
-          }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

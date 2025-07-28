@@ -14,7 +14,8 @@ import { WebSocketStatus } from './../store/web-socket.status';
 @Component({
   selector: 'app-dsp-live-stats',
   templateUrl: './dsp-live-stats.component.html',
-  styleUrls: ['./dsp-live-stats.component.scss']
+  styleUrls: ['./dsp-live-stats.component.scss'],
+  standalone: false
 })
 export class DspLiveStatsComponent implements OnInit {
   trackStatus$: Observable<TrackStatus>;

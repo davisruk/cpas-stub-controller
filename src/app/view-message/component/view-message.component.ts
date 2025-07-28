@@ -8,7 +8,8 @@ import { selectMessage } from './../store/view-message.selectors';
 @Component({
   selector: 'app-view-message',
   templateUrl: './view-message.component.html',
-  styleUrls: ['./view-message.component.scss']
+  styleUrls: ['./view-message.component.scss'],
+  standalone: false
 })
 export class ViewMessageComponent implements OnInit {
   message$: Observable<ToteMessage>;

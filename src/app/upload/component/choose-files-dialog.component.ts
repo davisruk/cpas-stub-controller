@@ -10,7 +10,8 @@ import { selectWebSocketStatus } from './../../dsp-live-stats/store/dsp-live-sta
 @Component({
   selector: 'app-choose-files-dialog',
   templateUrl: './choose-files-dialog.component.html',
-  styleUrls: ['./choose-files-dialog.component.scss']
+  styleUrls: ['./choose-files-dialog.component.scss'],
+  standalone: false
 })
 export class ChooseFilesDialogComponent implements OnInit {
   @ViewChild('file') file;

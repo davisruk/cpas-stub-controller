@@ -13,7 +13,8 @@ import { loadMessage } from './../../view-message/store/view-message.actions';
 @Component({
   selector: 'app-tote-messages',
   templateUrl: './tote-messages.component.html',
-  styleUrls: ['./tote-messages.component.scss']
+  styleUrls: ['./tote-messages.component.scss'],
+  standalone: false
 })
 export class ToteMessagesComponent implements OnInit, AfterViewInit, OnDestroy {
 
