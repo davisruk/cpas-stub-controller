@@ -1,5 +1,5 @@
-# Use Node 16 LTS (compatible with Angular 12)
-FROM node:18
+# Use Node 22 LTS (compatible with Angular 20)
+FROM node:22
 
 # Set the working directory
 WORKDIR /app
