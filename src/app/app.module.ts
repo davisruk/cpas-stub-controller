@@ -1,5 +1,5 @@
 import { LayoutModule } from '@angular/cdk/layout';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
@@ -66,7 +66,6 @@ import { ViewMessageEffects } from './view-message/store/view-message.effects';
     MatListModule,
     FlexLayoutModule,
     BrowserModule,
-    HttpClientModule,
     AppRoutingModule,
     EffectsModule.forRoot([ConfigEffects, ToteSummaryEffects, ToteMessagesEffects, ViewMessageEffects, DspLiveStatsEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
@@ -87,7 +86,10 @@ import { ViewMessageEffects } from './view-message/store/view-message.effects';
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [CustomBreakPointsProvider],
+  providers: [
+    CustomBreakPointsProvider,
+    provideHttpClient(withInterceptorsFromDi())
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
